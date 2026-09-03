@@ -1,0 +1,610 @@
+/*
+ * Deliberately neutral theme.
+ *
+ * Everything is expressed through the tokens in `:root`, so the whole site can
+ * be re-skinned by overriding this block alone. There is no accent colour yet —
+ * hierarchy comes from weight, spacing and a greyscale ramp.
+ *
+ * The room/list breakpoint lives in the generated `breakpoint.css`, since it is
+ * configurable per build.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  --ink: #1a1a1a;
+  --ink-muted: #5c5c5c;
+  --ink-faint: #8a8a8a;
+  --paper: #fbfbfa;
+  --surface: #ffffff;
+  --surface-sunken: #f3f3f1;
+  --line: #e0e0dd;
+  --line-strong: #c9c9c5;
+
+  --focus: #1a1a1a;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  --measure: 68ch;
+  --radius: 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #ececea;
+    --ink-muted: #a5a5a1;
+    --ink-faint: #7b7b77;
+    --paper: #131313;
+    --surface: #1a1a1a;
+    --surface-sunken: #202020;
+    --line: #2e2e2e;
+    --line-strong: #444440;
+
+    --focus: #ececea;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* The article is the page: no header, nav or footer. */
+
+article {
+  padding: 2rem clamp(1rem, 4vw, 3rem) 4rem;
+}
+
+/* ---------- page heads ---------- */
+
+.page-head {
+  margin-bottom: 1.75rem;
+}
+
+.page-head h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  word-break: break-word;
+}
+
+.lede {
+  margin: 0.4rem 0 0;
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- the room ---------- */
+
+/*
+ * A room fills the viewport. The stage keeps the background image's aspect
+ * ratio and is scaled to the largest size that fits, so hotspots — positioned
+ * in percentages of the image — always land exactly on it, at any window size.
+ *
+ * `contain` on the image plus a matching ratio on the stage means the two are
+ * always the same box, which is what keeps the objects aligned.
+ */
+
+.tag-page:has(.room-stage) {
+  /* Fullscreen rooms manage their own spacing; the article padding would
+     shrink the stage and letterbox it twice. */
+  padding: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.room-stage {
+  position: relative;
+  flex: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 0;
+  background: var(--surface-sunken);
+  overflow: hidden;
+}
+
+.room-frame {
+  position: relative;
+  aspect-ratio: var(--room-ratio, 16 / 9);
+  /* Fit the frame inside the stage without ever overflowing it. */
+  max-width: 100%;
+  max-height: 100%;
+  width: min(100%, calc(100dvh * var(--room-ratio-n, 1.7778)));
+  line-height: 0;
+}
+
+.room-bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.room-objects {
+  position: absolute;
+  inset: 0;
+}
+
+.hotspot {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  text-decoration: none;
+  line-height: 1.3;
+}
+
+.hotspot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* The image is decoration; the label carries the meaning. */
+  pointer-events: none;
+}
+
+/*
+ * `rasterize: true` on an object. Pixel art and low-resolution sprites should
+ * scale up as hard squares, not as a blur.
+ */
+.hotspot img.pixelated {
+  image-rendering: pixelated;
+  /* Safari and older Gecko spell it differently; both are harmless elsewhere. */
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+/*
+ * An object with no asset is a transparent region: the background image already
+ * shows whatever is there, so nothing is drawn over it. It becomes visible on
+ * hover and focus, like every other object.
+ */
+.hotspot-bare {
+  background: transparent;
+}
+
+/*
+ * A polygon hotspot is clipped to its outline, so the clip is the click target
+ * too — pointer events respect `clip-path`. An outline drawn by the author is
+ * usually tight around an object, so its label would otherwise be clipped away
+ * along with everything else; the floating cursor label sidesteps that, and the
+ * static fallback label is allowed to overflow.
+ */
+.hotspot-poly {
+  overflow: visible;
+}
+
+/*
+ * `?hitboxes` overlay: outlines every clickable region for authoring. Never
+ * present without the URL parameter.
+ */
+.room-hitboxes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.room-hitboxes rect,
+.room-hitboxes polygon {
+  fill: color-mix(in srgb, var(--focus) 12%, transparent);
+  stroke: var(--focus);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+
+/*
+ * The label follows the cursor rather than sitting in a fixed spot, and the
+ * region itself gets no border, outline or tint — the background art must read
+ * exactly as drawn. `room.js` positions this; without JavaScript the label
+ * falls back to appearing at the region's own corner, so the page still works.
+ */
+.hotspot-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  padding: 0.15rem 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 90ms ease;
+  pointer-events: none;
+}
+
+.hotspot:hover .hotspot-label,
+.hotspot:focus-visible .hotspot-label {
+  opacity: 1;
+}
+
+/*
+ * Keyboard focus still needs a visible target: there is no cursor to put the
+ * label beside, so the region shows a ring. Pointer hover shows nothing but the
+ * floating label.
+ */
+.hotspot:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/*
+ * Once the script is running the label is moved into a single layer above the
+ * room, positioned at the pointer.
+ */
+.room-cursor-label {
+  position: absolute;
+  /*
+   * Anchor at the stage's top-left before the script translates it to the
+   * pointer. Without this the label is laid out as a grid item — the stage
+   * centres its children — and every transform is measured from that centred
+   * position instead of from the origin.
+   */
+  left: 0;
+  top: 0;
+  z-index: 3;
+  padding: 0.15rem 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  /* Only the opacity animates; the position must track the pointer exactly. */
+  transition: opacity 90ms ease;
+  will-change: transform;
+}
+
+.room-cursor-label[data-visible="1"] {
+  opacity: 1;
+}
+
+/*
+ * `?position` readout. Monospaced so the digits stop jittering as the cursor
+ * moves, which makes a coordinate readable while it updates.
+ */
+.room-position {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* With the script active, per-object labels never show on hover. */
+.room-stage[data-cursor-labels="1"] .hotspot:hover .hotspot-label {
+  opacity: 0;
+}
+
+/*
+ * A room carries nothing but its image and the clickable objects on it — no
+ * heading, no counts, no prose. The tag name still reaches the browser tab and
+ * assistive technology through the document title.
+ *
+ * The narrow-screen fallback does keep a heading: a bare list of links with no
+ * indication of which concept they belong to is unreadable.
+ */
+.fallback-title {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  word-break: break-word;
+}
+
+/* ---------- panels ---------- */
+
+/*
+ * With a room present these are the small-screen fallback: hidden by default,
+ * revealed by the generated breakpoint stylesheet. Without a room the plain
+ * `.panels` class shows at every width.
+ */
+
+.panels {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  align-items: start;
+}
+
+.panels-fallback {
+  display: none;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+
+.panel h2 {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.panel-note {
+  margin: 0 0 0.85rem;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+.panel code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--surface-sunken);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+.tag-list,
+.note-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag-list li + li,
+.note-list li + li {
+  border-top: 1px solid var(--line);
+}
+
+.tag-list a,
+.note-list a {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0.55rem 0;
+  text-decoration: none;
+}
+
+.tag-list a:hover,
+.note-list a:hover {
+  color: var(--ink);
+}
+
+.tag-name {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+.tag-count {
+  color: var(--ink-faint);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.note-list a {
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.note-title {
+  font-weight: 500;
+}
+
+.note-excerpt {
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- index ---------- */
+
+.tag-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag-card a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  height: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: border-color 120ms ease;
+}
+
+.tag-card a:hover {
+  border-color: var(--ink);
+}
+
+.tag-sub {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+/* ---------- note prose ---------- */
+
+.tag-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag-chips a {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-decoration: none;
+  color: var(--ink-muted);
+}
+
+.tag-chips a:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.prose {
+  max-width: var(--measure);
+  margin-bottom: 2rem;
+}
+
+.prose > :first-child {
+  margin-top: 0;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  margin: 2rem 0 0.6rem;
+}
+
+.prose h1 {
+  font-size: 1.5rem;
+}
+.prose h2 {
+  font-size: 1.2rem;
+}
+.prose h3 {
+  font-size: 1.05rem;
+}
+
+.prose p,
+.prose ul,
+.prose ol,
+.prose blockquote {
+  margin: 0 0 1rem;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4rem;
+}
+
+.prose blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid var(--line-strong);
+  color: var(--ink-muted);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--surface-sunken);
+  padding: 0.12em 0.35em;
+  border-radius: 3px;
+}
+
+.prose pre {
+  background: var(--surface-sunken);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+.prose table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid var(--line);
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 2rem 0;
+}
+
+.broken-link {
+  color: var(--ink-faint);
+  border-bottom: 1px dotted var(--ink-faint);
+  cursor: help;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

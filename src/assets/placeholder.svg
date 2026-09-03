@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="presentation">
+  <!--
+    Neutral placeholder background for a room with no authored image.
+    A wall, a floor and a horizon: enough to read as a place, with no style
+    opinion to unlearn once a real image replaces it.
+  -->
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#efefed"/>
+      <stop offset="1" stop-color="#e2e2df"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d8d8d4"/>
+      <stop offset="1" stop-color="#c6c6c1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#wall)"/>
+  <rect y="520" width="1600" height="380" fill="url(#floor)"/>
+  <line x1="0" y1="520" x2="1600" y2="520" stroke="#b8b8b3" stroke-width="2"/>
+</svg>

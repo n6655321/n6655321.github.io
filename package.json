@@ -1,0 +1,29 @@
+{
+  "name": "tektite",
+  "version": "0.1.0",
+  "description": "A static site generator for Obsidian vaults that renders each hashtag as an explorable room of concepts.",
+  "type": "module",
+  "bin": {
+    "tektite": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/copy-assets.mjs",
+    "dev": "npm run build && node dist/cli.js build",
+    "demo": "npm run build && node dist/cli.js build test/vault -o test/out --watch --serve",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test test/graph.test.mjs test/rooms.test.mjs test/autoroom.test.mjs test/label.test.mjs test/watch.test.mjs test/build.test.mjs"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.1.0"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.2.0",
+    "@types/node": "^20.11.0",
+    "typescript": "^5.4.5"
+  }
+}

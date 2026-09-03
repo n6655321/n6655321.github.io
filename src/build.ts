@@ -1,5 +1,3 @@
-/** The build pipeline: vault in, static site out. */
-
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -8,117 +6,78 @@ import { readVault } from "./parse/vault.js";
 import { collectRooms } from "./parse/rooms.js";
 import { PLACEHOLDER_IMAGE, generateRooms } from "./graph/autoroom.js";
 import { buildTags } from "./graph/containment.js";
-import {
-  noteOutputPath,
-  renderNotePage,
-  renderTagIndex,
-  renderTagPage,
-  tagHref,
-} from "./render/pages.js";
+import { noteOutputPath, renderNotePage, renderTagIndex, renderTagPage, tagHref, } from "./render/pages.js";
 import { escapeHtml, shell } from "./render/html.js";
-
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-
-/** Parse a vault into the in-memory index the renderer consumes. */
 export async function indexVault(options: BuildOptions): Promise<VaultIndex> {
-  const notes = await readVault(options);
-  const tags = buildTags(notes);
-
-  const index: VaultIndex = {
-    notes: new Map(notes.map((n) => [n.path, n])),
-    tags,
-    rooms: collectRooms(notes),
-    assets: new Set<string>(),
-    root: options.vault,
-  };
-
-  // Everything that is not a note is a room, so every tag gets one: authored
-  // definitions are completed, and the rest are generated wholesale.
-  index.rooms = generateRooms(index);
-
-  // Every image a room references has to be copied into the output. The built-in
-  // placeholder ships with the theme, so it is not a vault asset.
-  for (const room of index.rooms.values()) {
-    if (room.image && room.image !== PLACEHOLDER_IMAGE) {
-      index.assets.add(room.image.replace(/^\.?\//, ""));
+    const notes = await readVault(options);
+    const tags = buildTags(notes);
+    const index: VaultIndex = {
+        notes: new Map(notes.map((n) => [n.path, n])),
+        tags,
+        rooms: collectRooms(notes),
+        assets: new Set<string>(),
+        root: options.vault,
+    };
+    index.rooms = generateRooms(index);
+    for (const room of index.rooms.values()) {
+        if (room.image && room.image !== PLACEHOLDER_IMAGE) {
+            index.assets.add(room.image.replace(/^\.?\//, ""));
+        }
+        for (const hotspot of room.hotspots) {
+            if (hotspot.asset)
+                index.assets.add(hotspot.asset.replace(/^\.?\//, ""));
+        }
     }
-    for (const hotspot of room.hotspots) {
-      if (hotspot.asset) index.assets.add(hotspot.asset.replace(/^\.?\//, ""));
-    }
-  }
-
-  return index;
+    return index;
 }
-
-/** Write a file, creating parent directories as needed. */
 async function writePage(outDir: string, relPath: string, html: string): Promise<void> {
-  const target = path.join(outDir, relPath);
-  await fs.mkdir(path.dirname(target), { recursive: true });
-  await fs.writeFile(target, html, "utf8");
+    const target = path.join(outDir, relPath);
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    await fs.writeFile(target, html, "utf8");
 }
-
-/** Copy the theme and room script into the output. */
 async function copyAssets(outDir: string): Promise<void> {
-  const src = path.join(HERE, "assets");
-  const dest = path.join(outDir, "assets");
-  await fs.mkdir(dest, { recursive: true });
-  for (const file of await fs.readdir(src)) {
-    await fs.copyFile(path.join(src, file), path.join(dest, file));
-  }
-}
-
-/**
- * Copy every image a room references into `/vault/`, preserving its path.
- *
- * Missing files are collected rather than thrown: one mistyped asset path
- * should not fail an otherwise good build.
- */
-async function copyVaultAssets(
-  index: VaultIndex,
-  outDir: string,
-): Promise<string[]> {
-  const missing: string[] = [];
-  for (const rel of index.assets) {
-    const from = path.join(index.root, rel);
-    const to = path.join(outDir, "vault", ...rel.split("/"));
-    try {
-      await fs.mkdir(path.dirname(to), { recursive: true });
-      await fs.copyFile(from, to);
-    } catch {
-      missing.push(rel);
+    const src = path.join(HERE, "assets");
+    const dest = path.join(outDir, "assets");
+    await fs.mkdir(dest, { recursive: true });
+    for (const file of await fs.readdir(src)) {
+        await fs.copyFile(path.join(src, file), path.join(dest, file));
     }
-  }
-  return missing.sort();
 }
-
-/** The site home page: entry points into the broadest rooms. */
+async function copyVaultAssets(index: VaultIndex, outDir: string): Promise<string[]> {
+    const missing: string[] = [];
+    for (const rel of index.assets) {
+        const from = path.join(index.root, rel);
+        const to = path.join(outDir, "vault", ...rel.split("/"));
+        try {
+            await fs.mkdir(path.dirname(to), { recursive: true });
+            await fs.copyFile(from, to);
+        }
+        catch {
+            missing.push(rel);
+        }
+    }
+    return missing.sort();
+}
 function renderHome(index: VaultIndex, base: string, siteTitle: string): string {
-  const tags = [...index.tags.values()].sort(
-    (a, b) => b.notes.length - a.notes.length || a.name.localeCompare(b.name),
-  );
-  const roots = tags.filter((t) => t.parents.length === 0).slice(0, 12);
-
-  const cards = roots
-    .map((t) => {
-      const sub = t.children.length
-        ? `<span class="tag-sub">${t.children.length} sub-concept${
-            t.children.length === 1 ? "" : "s"
-          }</span>`
-        : "";
-      return `<li class="tag-card"><a href="${tagHref(base, t)}">
+    const tags = [...index.tags.values()].sort((a, b) => b.notes.length - a.notes.length || a.name.localeCompare(b.name));
+    const roots = tags.filter((t) => t.parents.length === 0).slice(0, 12);
+    const cards = roots
+        .map((t) => {
+        const sub = t.children.length
+            ? `<span class="tag-sub">${t.children.length} sub-concept${t.children.length === 1 ? "" : "s"}</span>`
+            : "";
+        return `<li class="tag-card"><a href="${tagHref(base, t)}">
       <span class="tag-name">#${escapeHtml(t.name)}</span>
       <span class="tag-count">${t.notes.length} note${t.notes.length === 1 ? "" : "s"}</span>
       ${sub}
     </a></li>`;
     })
-    .join("");
-
-  const body = `<article class="index-page">
+        .join("");
+    const body = `<article class="index-page">
   <header class="page-head">
     <h1>${escapeHtml(siteTitle)}</h1>
-    <p class="lede">${index.notes.size} note${index.notes.size === 1 ? "" : "s"}, ${
-      index.tags.size
-    } concept${index.tags.size === 1 ? "" : "s"}.</p>
+    <p class="lede">${index.notes.size} note${index.notes.size === 1 ? "" : "s"}, ${index.tags.size} concept${index.tags.size === 1 ? "" : "s"}.</p>
   </header>
   <section class="panel">
     <h2>Start here</h2>
@@ -127,37 +86,24 @@ function renderHome(index: VaultIndex, base: string, siteTitle: string): string 
   </section>
   <section class="panel">
     <h2>Everything</h2>
-    <p class="panel-note"><a href="${base}/tags/">Browse all ${index.tags.size} concept${
-      index.tags.size === 1 ? "" : "s"
-    } →</a></p>
+    <p class="panel-note"><a href="${base}/tags/">Browse all ${index.tags.size} concept${index.tags.size === 1 ? "" : "s"} →</a></p>
   </section>
 </article>`;
-
-  return shell({ title: "Home", siteTitle, base, body });
+    return shell({ title: "Home", siteTitle, base, body });
 }
-
 export interface BuildResult {
-  notes: number;
-  tags: number;
-  pages: number;
-  /** Rooms rendered, which is every tag. */
-  rooms: number;
-  /** How many of those were hand-authored rather than generated. */
-  authoredRooms: number;
-  out: string;
-  /** Hotspot targets that matched no tag or note, as `#tag -> target`. */
-  unresolved: string[];
-  /** Referenced images that were not found in the vault. */
-  missingAssets: string[];
-  /** Rooms whose `size:` mode could not be applied. */
-  sizeWarnings: string[];
+    notes: number;
+    tags: number;
+    pages: number;
+    rooms: number;
+    authoredRooms: number;
+    out: string;
+    unresolved: string[];
+    missingAssets: string[];
+    sizeWarnings: string[];
 }
-
-/** Emit the stylesheet's responsive breakpoint. */
 async function writeBreakpoint(outDir: string, breakpoint: number): Promise<void> {
-  // The room/list switch is pure CSS, so the configured breakpoint has to reach
-  // the stylesheet. A tiny generated file keeps theme.css hand-editable.
-  const css = `/* Generated by tektite — the width below which rooms fall back to lists. */
+    const css = `/* Generated by tektite — the width below which rooms fall back to lists. */
 @media (max-width: ${breakpoint - 1}px) {
   .room-stage {
     display: none;
@@ -167,65 +113,48 @@ async function writeBreakpoint(outDir: string, breakpoint: number): Promise<void
   }
 }
 `;
-  await fs.writeFile(path.join(outDir, "assets", "breakpoint.css"), css, "utf8");
+    await fs.writeFile(path.join(outDir, "assets", "breakpoint.css"), css, "utf8");
 }
-
-/** Run the full build. */
 export async function build(options: BuildOptions): Promise<BuildResult> {
-  const index = await indexVault(options);
-  const { out, base, title } = options;
-  const authored = [...index.rooms.values()].filter((r) => r.source).length;
-
-  await fs.mkdir(out, { recursive: true });
-  let pages = 0;
-  const unresolved: string[] = [];
-
-  await writePage(out, "index.html", renderHome(index, base, title));
-  pages++;
-
-  await writePage(out, path.join("tags", "index.html"), renderTagIndex(index, base, title));
-  pages++;
-
-  for (const tag of index.tags.values()) {
-    const result = renderTagPage(tag, index, base, title);
-    await writePage(out, path.join("tags", tag.slug, "index.html"), result.html);
-    for (const target of result.unresolved) unresolved.push(`#${tag.name} -> ${target}`);
+    const index = await indexVault(options);
+    const { out, base, title } = options;
+    const authored = [...index.rooms.values()].filter((r) => r.source).length;
+    await fs.mkdir(out, { recursive: true });
+    let pages = 0;
+    const unresolved: string[] = [];
+    await writePage(out, "index.html", renderHome(index, base, title));
     pages++;
-  }
-
-  // `size: absolute` silently does nothing without room dimensions to convert
-  // against, which looks like a layout bug rather than a missing key.
-  const sizeWarnings: string[] = [];
-  for (const room of index.rooms.values()) {
-    if (room.absoluteWithoutSize) {
-      sizeWarnings.push(
-        `#${room.tag}: absolute size/position needs width and height on the room note`,
-      );
+    await writePage(out, path.join("tags", "index.html"), renderTagIndex(index, base, title));
+    pages++;
+    for (const tag of index.tags.values()) {
+        const result = renderTagPage(tag, index, base, title);
+        await writePage(out, path.join("tags", tag.slug, "index.html"), result.html);
+        for (const target of result.unresolved)
+            unresolved.push(`#${tag.name} -> ${target}`);
+        pages++;
     }
-  }
-
-  for (const note of index.notes.values()) {
-    await writePage(
-      out,
-      path.join(...noteOutputPath(note.slug), "index.html"),
-      renderNotePage(note, index, base, title),
-    );
-    pages++;
-  }
-
-  await copyAssets(out);
-  await writeBreakpoint(out, options.breakpoint);
-  const missingAssets = await copyVaultAssets(index, out);
-
-  return {
-    notes: index.notes.size,
-    tags: index.tags.size,
-    rooms: index.rooms.size,
-    authoredRooms: authored,
-    pages,
-    out,
-    unresolved,
-    missingAssets,
-    sizeWarnings,
-  };
+    const sizeWarnings: string[] = [];
+    for (const room of index.rooms.values()) {
+        if (room.absoluteWithoutSize) {
+            sizeWarnings.push(`#${room.tag}: absolute size/position needs width and height on the room note`);
+        }
+    }
+    for (const note of index.notes.values()) {
+        await writePage(out, path.join(...noteOutputPath(note.slug), "index.html"), renderNotePage(note, index, base, title));
+        pages++;
+    }
+    await copyAssets(out);
+    await writeBreakpoint(out, options.breakpoint);
+    const missingAssets = await copyVaultAssets(index, out);
+    return {
+        notes: index.notes.size,
+        tags: index.tags.size,
+        rooms: index.rooms.size,
+        authoredRooms: authored,
+        pages,
+        out,
+        unresolved,
+        missingAssets,
+        sizeWarnings,
+    };
 }

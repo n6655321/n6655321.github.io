@@ -1,13 +1,4 @@
-/*
- * Deliberately neutral theme.
- *
- * Everything is expressed through the tokens in `:root`, so the whole site can
- * be re-skinned by overriding this block alone. There is no accent colour yet —
- * hierarchy comes from weight, spacing and a greyscale ramp.
- *
- * The room/list breakpoint lives in the generated `breakpoint.css`, since it is
- * configurable per build.
- */
+
 
 :root {
   color-scheme: light dark;
@@ -85,13 +76,13 @@ img {
   max-width: 100%;
 }
 
-/* The article is the page: no header, nav or footer. */
+
 
 article {
   padding: 2rem clamp(1rem, 4vw, 3rem) 4rem;
 }
 
-/* ---------- page heads ---------- */
+
 
 .page-head {
   margin-bottom: 1.75rem;
@@ -111,20 +102,12 @@ article {
   font-size: 0.95rem;
 }
 
-/* ---------- the room ---------- */
 
-/*
- * A room fills the viewport. The stage keeps the background image's aspect
- * ratio and is scaled to the largest size that fits, so hotspots — positioned
- * in percentages of the image — always land exactly on it, at any window size.
- *
- * `contain` on the image plus a matching ratio on the stage means the two are
- * always the same box, which is what keeps the objects aligned.
- */
+
+
 
 .tag-page:has(.room-stage) {
-  /* Fullscreen rooms manage their own spacing; the article padding would
-     shrink the stage and letterbox it twice. */
+  
   padding: 0;
   min-height: 100dvh;
   display: flex;
@@ -145,7 +128,7 @@ article {
 .room-frame {
   position: relative;
   aspect-ratio: var(--room-ratio, 16 / 9);
-  /* Fit the frame inside the stage without ever overflowing it. */
+  
   max-width: 100%;
   max-height: 100%;
   width: min(100%, calc(100dvh * var(--room-ratio-n, 1.7778)));
@@ -177,45 +160,29 @@ article {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  /* The image is decoration; the label carries the meaning. */
+  
   pointer-events: none;
 }
 
-/*
- * `rasterize: true` on an object. Pixel art and low-resolution sprites should
- * scale up as hard squares, not as a blur.
- */
+
 .hotspot img.pixelated {
   image-rendering: pixelated;
-  /* Safari and older Gecko spell it differently; both are harmless elsewhere. */
+  
   image-rendering: crisp-edges;
   image-rendering: pixelated;
 }
 
-/*
- * An object with no asset is a transparent region: the background image already
- * shows whatever is there, so nothing is drawn over it. It becomes visible on
- * hover and focus, like every other object.
- */
+
 .hotspot-bare {
   background: transparent;
 }
 
-/*
- * A polygon hotspot is clipped to its outline, so the clip is the click target
- * too — pointer events respect `clip-path`. An outline drawn by the author is
- * usually tight around an object, so its label would otherwise be clipped away
- * along with everything else; the floating cursor label sidesteps that, and the
- * static fallback label is allowed to overflow.
- */
+
 .hotspot-poly {
   overflow: visible;
 }
 
-/*
- * `?hitboxes` overlay: outlines every clickable region for authoring. Never
- * present without the URL parameter.
- */
+
 .room-hitboxes {
   position: absolute;
   inset: 0;
@@ -233,12 +200,7 @@ article {
   stroke-dasharray: 4 3;
 }
 
-/*
- * The label follows the cursor rather than sitting in a fixed spot, and the
- * region itself gets no border, outline or tint — the background art must read
- * exactly as drawn. `room.js` positions this; without JavaScript the label
- * falls back to appearing at the region's own corner, so the page still works.
- */
+
 .hotspot-label {
   position: absolute;
   left: 0;
@@ -262,28 +224,16 @@ article {
   opacity: 1;
 }
 
-/*
- * Keyboard focus still needs a visible target: there is no cursor to put the
- * label beside, so the region shows a ring. Pointer hover shows nothing but the
- * floating label.
- */
+
 .hotspot:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
 
-/*
- * Once the script is running the label is moved into a single layer above the
- * room, positioned at the pointer.
- */
+
 .room-cursor-label {
   position: absolute;
-  /*
-   * Anchor at the stage's top-left before the script translates it to the
-   * pointer. Without this the label is laid out as a grid item — the stage
-   * centres its children — and every transform is measured from that centred
-   * position instead of from the origin.
-   */
+  
   left: 0;
   top: 0;
   z-index: 3;
@@ -297,7 +247,7 @@ article {
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  /* Only the opacity animates; the position must track the pointer exactly. */
+  
   transition: opacity 90ms ease;
   will-change: transform;
 }
@@ -306,29 +256,19 @@ article {
   opacity: 1;
 }
 
-/*
- * `?position` readout. Monospaced so the digits stop jittering as the cursor
- * moves, which makes a coordinate readable while it updates.
- */
+
 .room-position {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-variant-numeric: tabular-nums;
 }
 
-/* With the script active, per-object labels never show on hover. */
+
 .room-stage[data-cursor-labels="1"] .hotspot:hover .hotspot-label {
   opacity: 0;
 }
 
-/*
- * A room carries nothing but its image and the clickable objects on it — no
- * heading, no counts, no prose. The tag name still reaches the browser tab and
- * assistive technology through the document title.
- *
- * The narrow-screen fallback does keep a heading: a bare list of links with no
- * indication of which concept they belong to is unreadable.
- */
+
 .fallback-title {
   grid-column: 1 / -1;
   margin: 0;
@@ -338,13 +278,9 @@ article {
   word-break: break-word;
 }
 
-/* ---------- panels ---------- */
 
-/*
- * With a room present these are the small-screen fallback: hidden by default,
- * revealed by the generated breakpoint stylesheet. Without a room the plain
- * `.panels` class shows at every width.
- */
+
+
 
 .panels {
   display: grid;
@@ -445,7 +381,7 @@ article {
   overflow: hidden;
 }
 
-/* ---------- index ---------- */
+
 
 .tag-grid {
   display: grid;
@@ -477,7 +413,7 @@ article {
   color: var(--ink-faint);
 }
 
-/* ---------- note prose ---------- */
+
 
 .tag-chips {
   display: flex;

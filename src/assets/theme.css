@@ -510,6 +510,26 @@ article {
 .prose img {
   max-width: 100%;
   height: auto;
+  border-radius: var(--radius);
+}
+
+.embed {
+  display: block;
+  margin: 1.25rem 0;
+}
+
+.embed-pdf object {
+  display: block;
+  width: 100%;
+  height: min(80vh, 900px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-sunken);
+}
+
+.embed-pdf a {
+  display: inline-block;
+  padding: 0.75rem 1rem;
 }
 
 .prose table {

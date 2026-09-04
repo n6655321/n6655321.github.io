@@ -15,7 +15,7 @@
     "dev": "npm run build && node dist/cli.js build",
     "demo": "npm run build && node dist/cli.js build test/vault -o test/out --watch --serve",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "node --test test/graph.test.mjs test/rooms.test.mjs test/autoroom.test.mjs test/label.test.mjs test/watch.test.mjs test/build.test.mjs"
+    "test": "node --test test/graph.test.mjs test/rooms.test.mjs test/autoroom.test.mjs test/attachments.test.mjs test/label.test.mjs test/watch.test.mjs test/build.test.mjs"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

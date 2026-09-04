@@ -1,6 +1,7 @@
 import MarkdownIt from "markdown-it";
 import type { Note, Tag, VaultIndex } from "../types.js";
-import { renderRoomStage } from "./room.js";
+import { renderRoomStage, assetHref } from "./room.js";
+import { attachmentKind, resolveAttachment } from "../parse/attachments.js";
 import { escapeHtml, shell } from "./html.js";
 const md = new MarkdownIt({ html: true, linkify: true, typographer: true });
 export function tagHref(base: string, tag: Tag): string {
@@ -20,26 +21,99 @@ export function noteHref(base: string, note: {
 function plural(n: number, word: string): string {
     return `${n} ${word}${n === 1 ? "" : "s"}`;
 }
-function renderBody(body: string, index: VaultIndex, base: string): string {
+/**
+ * Render one embedded file: an image inline, a PDF in a viewer.
+ *
+ * A PDF gets an `<object>` with a download link inside it, which is what shows
+ * when a browser cannot display PDFs itself.
+ */
+function renderEmbed(url: string, file: string, alt: string): string {
+    const kind = attachmentKind(file);
+    if (kind === "pdf") {
+        return `<span class="embed embed-pdf"><object data="${escapeHtml(url)}" type="application/pdf">` +
+            `<a href="${escapeHtml(url)}">${escapeHtml(alt || file.split("/").pop() || "PDF")}</a>` +
+            `</object></span>`;
+    }
+    return `<img src="${escapeHtml(url)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async">`;
+}
+
+/**
+ * Render a note body to HTML.
+ *
+ * Three things are rewritten before markdown-it sees the text, because none of
+ * them are CommonMark: Obsidian's `![[embed]]` and `[[wikilink]]`, and the
+ * relative paths in plain markdown images, which have to become site URLs.
+ *
+ * Files that an embed or image points at are recorded in `used`, so the build
+ * copies exactly what the site references and nothing else.
+ */
+function renderBody(
+    body: string,
+    note: Note,
+    index: VaultIndex,
+    base: string,
+    used?: Set<string>,
+): string {
     const byTitle = new Map<string, Note>();
     const byBasename = new Map<string, Note>();
     for (const n of index.notes.values()) {
         byTitle.set(n.title.toLowerCase(), n);
         byBasename.set((n.slug.split("/").pop() ?? n.slug).toLowerCase(), n);
     }
-    const resolved = body.replace(/\[\[([^\]]+)\]\]/g, (_whole, inner: string) => {
+
+    const attach = (reference: string): string | null => {
+        const file = resolveAttachment(reference, note, index.files);
+        if (file) used?.add(file);
+        return file;
+    };
+
+    let resolved = body;
+
+    resolved = resolved.replace(/!\[\[([^\]]+)\]\]/g, (_whole, inner: string) => {
+        const [rawTarget = "", alias] = inner.split("|");
+        const file = attach(rawTarget);
+        if (!file) {
+            const label = (alias ?? rawTarget).trim();
+            return `<span class="broken-link" title="Unresolved embed">${escapeHtml(label)}</span>`;
+        }
+        return renderEmbed(assetHref(base, file), file, (alias ?? "").trim());
+    });
+
+    resolved = resolved.replace(/\[\[([^\]]+)\]\]/g, (_whole, inner: string) => {
         const [rawTarget = "", alias] = inner.split("|");
         const target = rawTarget.split("#")[0]!.trim();
         const label = (alias ?? target).trim();
         const key = target.toLowerCase();
         const hit = byBasename.get(key) ?? byTitle.get(key) ?? byBasename.get(key.replace(/\.md$/, ""));
-        if (!hit) {
-            return `<span class="broken-link" title="Unresolved link">${escapeHtml(label)}</span>`;
-        }
-        return `[${label}](${noteHref(base, hit)})`;
+        if (hit) return `[${label}](${noteHref(base, hit)})`;
+        // Not a note: it may still be a file in the vault, linked rather than embedded.
+        const file = attach(target);
+        if (file) return `[${label}](${assetHref(base, file)})`;
+        return `<span class="broken-link" title="Unresolved link">${escapeHtml(label)}</span>`;
     });
+
+    resolved = resolved.replace(
+        /!\[([^\]]*)\]\(([^)\s]+)(\s+"[^"]*")?\)/g,
+        (whole, alt: string, src: string) => {
+            const file = attach(src);
+            if (!file) return whole;
+            return renderEmbed(assetHref(base, file), file, alt);
+        },
+    );
+
+    resolved = resolved.replace(
+        /(^|[^!])\[([^\]]+)\]\(([^)\s]+)(\s+"[^"]*")?\)/g,
+        (whole, before: string, label: string, href: string) => {
+            if (/^[a-z][a-z0-9+.-]*:|^#|^\//i.test(href)) return whole;
+            const file = attach(href);
+            if (!file) return whole;
+            return `${before}[${label}](${assetHref(base, file)})`;
+        },
+    );
+
     return md.render(resolved);
 }
+
 function tagRow(base: string, tag: Tag): string {
     return `<li><a href="${tagHref(base, tag)}"><span class="tag-name">#${escapeHtml(tag.name)}</span><span class="tag-count">${tag.notes.length}</span></a></li>`;
 }
@@ -131,7 +205,14 @@ export function renderTagPage(tag: Tag, index: VaultIndex, base: string, siteTit
         unresolved: stage.unresolved,
     };
 }
-export function renderNotePage(note: Note, index: VaultIndex, base: string, siteTitle: string): string {
+export interface NotePageResult {
+    html: string;
+    /** Vault files this page references, for the build to copy. */
+    used: string[];
+}
+
+export function renderNotePage(note: Note, index: VaultIndex, base: string, siteTitle: string): NotePageResult {
+    const used = new Set<string>();
     const tags = note.tags
         .map((name) => index.tags.get(name))
         .filter((t): t is Tag => Boolean(t));
@@ -145,15 +226,18 @@ export function renderNotePage(note: Note, index: VaultIndex, base: string, site
     <h1>${escapeHtml(note.title)}</h1>
     ${chips}
   </header>
-  <div class="prose">${renderBody(note.body, index, base)}</div>
+  <div class="prose">${renderBody(note.body, note, index, base, used)}</div>
 </article>`;
-    return shell({
-        title: note.title,
-        siteTitle,
-        base,
-        description: note.excerpt,
-        body,
-    });
+    return {
+        html: shell({
+            title: note.title,
+            siteTitle,
+            base,
+            description: note.excerpt,
+            body,
+        }),
+        used: [...used],
+    };
 }
 export function renderTagIndex(index: VaultIndex, base: string, siteTitle: string): string {
     const tags = [...index.tags.values()].sort((a, b) => b.notes.length - a.notes.length || a.name.localeCompare(b.name));

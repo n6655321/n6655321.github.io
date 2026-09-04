@@ -8,7 +8,21 @@ function toPosix(p: string): string {
     return p.split(path.sep).join("/");
 }
 export async function walkVault(root: string, ignorePaths: string[] = []): Promise<string[]> {
-    const out: string[] = [];
+    return (await walkVaultFiles(root, ignorePaths)).notes;
+}
+
+/**
+ * List the vault's markdown notes and every other file alongside them.
+ *
+ * Attachments have to be known before a note body can be rendered: an embed is
+ * resolved against the set of real files, the way Obsidian resolves one.
+ */
+export async function walkVaultFiles(root: string, ignorePaths: string[] = []): Promise<{
+    notes: string[];
+    files: string[];
+}> {
+    const notes: string[] = [];
+    const files: string[] = [];
     async function walk(dir: string): Promise<void> {
         const entries = await fs.readdir(dir, { withFileTypes: true });
         for (const entry of entries) {
@@ -21,13 +35,14 @@ export async function walkVault(root: string, ignorePaths: string[] = []): Promi
                     continue;
                 await walk(abs);
             }
-            else if (entry.isFile() && entry.name.toLowerCase().endsWith(".md")) {
-                out.push(rel);
+            else if (entry.isFile()) {
+                if (entry.name.toLowerCase().endsWith(".md")) notes.push(rel);
+                else if (!entry.name.startsWith(".")) files.push(rel);
             }
         }
     }
     await walk(root);
-    return out.sort();
+    return { notes: notes.sort(), files: files.sort() };
 }
 function toPlainText(md: string): string {
     return md

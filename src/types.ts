@@ -48,6 +48,9 @@ export interface VaultIndex {
     tags: Map<string, Tag>;
     rooms: Map<string, RoomDefinition>;
     assets: Set<string>;
+    files: Set<string>;
+    /** Room notes as written, including any that decorate no existing tag. */
+    authoredRooms: RoomDefinition[];
     root: string;
 }
 export interface BuildOptions {

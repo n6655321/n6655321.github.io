@@ -78,21 +78,74 @@ test("every internal link resolves to a real file", async () => {
   await fs.rm(out, { recursive: true, force: true });
 });
 
-test("an authored room renders its background and hotspots", async () => {
-  const { out, result } = await buildTemp();
-  const html = await fs.readFile(path.join(out, "tags", "biology", "index.html"), "utf8");
 
-  assert.equal(result.authoredRooms, 1, "the demo vault declares one room");
+const PNG = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+  "base64",
+);
+
+/**
+ * A self-contained vault with one hand-authored room.
+ *
+ * These tests used to read the demo vault's own room note, which broke every
+ * time it was edited while authoring. The fixture owns its content instead.
+ */
+async function authoredFixture(overrides = {}) {
+  const vault = await fs.mkdtemp(path.join(os.tmpdir(), "tektite-auth-"));
+  const out = await fs.mkdtemp(path.join(os.tmpdir(), "tektite-authout-"));
+  await fs.mkdir(path.join(vault, "assets"), { recursive: true });
+  await fs.writeFile(path.join(vault, "assets", "bg.png"), PNG);
+  await fs.writeFile(path.join(vault, "assets", "thing.png"), PNG);
+  await fs.writeFile(
+    path.join(vault, "a.md"),
+    ["---", "tags: [room, sub]", "---", "# A", ""].join("\n"),
+    "utf8",
+  );
+  await fs.writeFile(
+    path.join(vault, "b.md"),
+    ["---", "tags: [room]", "---", "# B", ""].join("\n"),
+    "utf8",
+  );
+  await fs.writeFile(
+    path.join(vault, "the-room.md"),
+    [
+      "---", "room: room", "image: assets/bg.png", 'background: "#123456"',
+      "width: 1000", "height: 500", "objects:",
+      '  - target: "#sub"', "    asset: assets/thing.png",
+      "    x: 12", "    y: 48", "    w: 18", "    h: 34", "    label: A thing",
+      '  - target: "[[b]]"', "    x1: 60", "    y1: 20", "    x2: 80", "    y2: 25",
+      "    x3: 70", "    y3: 60", "    label: A shape",
+      "---", "",
+    ].join("\n"),
+    "utf8",
+  );
+  const result = await build({
+    vault, out, title: "T", base: "",
+    ignoreTags: [], ignorePaths: [], breakpoint: 768,
+    ...overrides,
+  });
+  const html = await fs.readFile(path.join(out, "tags", "room", "index.html"), "utf8");
+  const cleanup = async () => {
+    await fs.rm(vault, { recursive: true, force: true });
+    await fs.rm(out, { recursive: true, force: true });
+  };
+  return { vault, out, html, result, cleanup };
+}
+
+test("an authored room renders its background and hotspots", async () => {
+  const { html, result, cleanup } = await authoredFixture();
+
+  assert.equal(result.authoredRooms, 1, "the fixture declares one room");
   assert.equal(result.rooms, result.tags, "every tag gets a room");
   assert.deepEqual(result.unresolved, [], "every hotspot target resolves");
   assert.deepEqual(result.missingAssets, [], "every referenced asset exists");
 
-  assert.match(html, /class="room-bg" src="\/vault\/assets\/rooms\/biology\.jpg"/);
-  assert.match(html, /--room-ratio:3600 \/ 3000/, "intrinsic ratio is set");
+  assert.match(html, /class="room-bg" src="\/vault\/assets\/bg\.png"/);
+  assert.match(html, /--room-ratio:1000 \/ 500/, "intrinsic ratio is set");
 
   // Every object in the room note reaches the page, positioned in percentages.
   const hotspots = [...html.matchAll(/<a class="hotspot hotspot-(?:tag|note)[^"]*" href="[^"]*" style="([^"]+)"/g)];
-  assert.ok(hotspots.length >= 3, `expected several objects, got ${hotspots.length}`);
+  assert.ok(hotspots.length >= 2, `expected several objects, got ${hotspots.length}`);
   for (const [, style] of hotspots) {
     assert.match(
       style,
@@ -100,12 +153,11 @@ test("an authored room renders its background and hotspots", async () => {
       "coordinates are emitted as percentages",
     );
   }
-  await fs.rm(out, { recursive: true, force: true });
+  await cleanup();
 });
 
 test("room images are copied into the output", async () => {
-  const { out, result } = await buildTemp();
-  const html = await fs.readFile(path.join(out, "tags", "biology", "index.html"), "utf8");
+  const { out, html, result, cleanup } = await authoredFixture();
 
   // Whatever the room references must exist under /vault/ in the output.
   const referenced = [...html.matchAll(/src="\/(vault\/[^"]+)"/g)].map((m) => m[1]);
@@ -117,7 +169,7 @@ test("room images are copied into the output", async () => {
     assert.ok(ok, `${rel} must be copied`);
   }
   assert.deepEqual(result.missingAssets, [], "and nothing is left dangling");
-  await fs.rm(out, { recursive: true, force: true });
+  await cleanup();
 });
 
 test("pages carry no chrome outside the article", async () => {
@@ -220,15 +272,13 @@ test("an object with no asset is a bare transparent region", async () => {
 });
 
 test("a polygon object is clipped to its outline", async () => {
-  const { out } = await buildTemp();
-  const html = await fs.readFile(path.join(out, "tags", "biology", "index.html"), "utf8");
-  const poly = /<a class="hotspot[^"]*hotspot-poly" href="\/tags\/energy\/" style="([^"]+)" data-points="([^"]+)">/.exec(html);
+  const { html, cleanup } = await authoredFixture();
+  const poly = /<a class="hotspot[^"]*hotspot-poly" href="[^"]*" style="([^"]+)" data-points="([^"]+)">/.exec(html);
   assert.ok(poly, "the polygon object renders");
 
-  // The demo room writes this outline in pixels of a 3600x3600 image, so the
-  // published points must already be percentages.
+  // Points reach the page as percentages, whatever unit they were written in.
   const points = poly[2].split(" ").map((pair) => pair.split(",").map(Number));
-  assert.equal(points.length, 4, "every vertex survives");
+  assert.ok(points.length >= 3, `a polygon needs three points, got ${points.length}`);
   for (const [x, y] of points) {
     assert.ok(x >= 0 && x <= 100, `x ${x} is a percentage`);
     assert.ok(y >= 0 && y <= 100, `y ${y} is a percentage`);
@@ -243,17 +293,16 @@ test("a polygon object is clipped to its outline", async () => {
   assert.equal(Math.round(Number(box[3]) * 100) / 100,
     Math.round((Math.max(...xs) - Math.min(...xs)) * 100) / 100);
   assert.match(poly[1], /clip-path:polygon\(/, "and it is clipped to the shape");
-  await fs.rm(out, { recursive: true, force: true });
+  await cleanup();
 });
 
 test("a room's background colour reaches the stage", async () => {
-  const { out } = await buildTemp();
-  const html = await fs.readFile(path.join(out, "tags", "biology", "index.html"), "utf8");
-  assert.match(html, /<div class="room-stage" style="background:[^"]+">/);
+  const { out, html, cleanup } = await authoredFixture();
+  assert.match(html, /<div class="room-stage" style="background:#123456">/);
   // A generated room declares no colour, so it gets no inline style.
-  const generated = await fs.readFile(path.join(out, "tags", "cell", "index.html"), "utf8");
+  const generated = await fs.readFile(path.join(out, "tags", "sub", "index.html"), "utf8");
   assert.match(generated, /<div class="room-stage">/);
-  await fs.rm(out, { recursive: true, force: true });
+  await cleanup();
 });
 
 test("the room script loads only on room pages", async () => {
@@ -364,9 +413,12 @@ test("base path prefixes every generated link", async () => {
   const home = await fs.readFile(path.join(out, "index.html"), "utf8");
   assert.match(home, /href="\/wiki\/tags\//, "tag links carry the base");
   assert.match(home, /href="\/wiki\/assets\/theme\.css"/, "styles carry the base");
-  const room = await fs.readFile(path.join(out, "tags", "biology", "index.html"), "utf8");
-  assert.match(room, /src="\/wiki\/vault\/assets\//, "room images carry the base");
   await fs.rm(out, { recursive: true, force: true });
+
+  // A room's own images carry the base too.
+  const authored = await authoredFixture({ base: "/wiki" });
+  assert.match(authored.html, /src="\/wiki\/vault\/assets\//, "room images carry the base");
+  await authored.cleanup();
 });
 
 test("ignored tags are excluded from the site", async () => {

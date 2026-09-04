@@ -144,6 +144,9 @@ async function main(): Promise<void> {
         for (const asset of result.missingAssets) {
             console.warn(`         warning: missing asset ${asset}`);
         }
+        for (const warning of result.sizeWarnings) {
+            console.warn(`         warning: ${warning}`);
+        }
     }
     const started = Date.now();
     const result = await build(options);

@@ -2,7 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { BuildOptions, VaultIndex } from "./types.js";
-import { readVault } from "./parse/vault.js";
+import { readVault, walkVaultFiles } from "./parse/vault.js";
 import { collectRooms } from "./parse/rooms.js";
 import { PLACEHOLDER_IMAGE, generateRooms } from "./graph/autoroom.js";
 import { buildTags } from "./graph/containment.js";
@@ -10,6 +10,7 @@ import { noteOutputPath, renderNotePage, renderTagIndex, renderTagPage, tagHref,
 import { escapeHtml, shell } from "./render/html.js";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export async function indexVault(options: BuildOptions): Promise<VaultIndex> {
+    const { files: vaultFiles } = await walkVaultFiles(options.vault, options.ignorePaths);
     const notes = await readVault(options);
     const tags = buildTags(notes);
     const index: VaultIndex = {
@@ -17,6 +18,8 @@ export async function indexVault(options: BuildOptions): Promise<VaultIndex> {
         tags,
         rooms: collectRooms(notes),
         assets: new Set<string>(),
+        files: new Set(vaultFiles),
+        authoredRooms: [...collectRooms(notes).values()],
         root: options.vault,
     };
     index.rooms = generateRooms(index);
@@ -139,8 +142,19 @@ export async function build(options: BuildOptions): Promise<BuildResult> {
             sizeWarnings.push(`#${room.tag}: absolute size/position needs width and height on the room note`);
         }
     }
+
+    // A room note naming a tag no note carries decorates nothing, and would
+    // otherwise be dropped without a word.
+    for (const room of index.authoredRooms) {
+        if (!index.tags.has(room.tag)) {
+            sizeWarnings.push(`${room.source}: no note is tagged #${room.tag}, so this room is unused`);
+        }
+    }
     for (const note of index.notes.values()) {
-        await writePage(out, path.join(...noteOutputPath(note.slug), "index.html"), renderNotePage(note, index, base, title));
+        const page = renderNotePage(note, index, base, title);
+        await writePage(out, path.join(...noteOutputPath(note.slug), "index.html"), page.html);
+        // Attachments a note embeds or links are copied like a room's images.
+        for (const file of page.used) index.assets.add(file);
         pages++;
     }
     await copyAssets(out);

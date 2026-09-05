@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import os from "node:os";
+import { fileURLToPath } from "node:url";
 import { build } from "../dist/build.js";
 
 const PNG = Buffer.from(
@@ -129,5 +130,28 @@ test("home room objects resolve, and unresolved ones are reported", async () => 
 test("the front page loads the room script", async () => {
   const { html, cleanup } = await fixture();
   assert.match(html, /<script src="\/assets\/room\.js" defer><\/script>/);
+  await cleanup();
+});
+
+test("the fullscreen rule is not tied to one page type", async () => {
+  // The rule used to select `.tag-page:has(.room-stage)`, so the front page —
+  // an `.index-page` — kept its article padding and showed a margin around the
+  // room. Any article holding a stage must go fullscreen.
+  const here = path.dirname(fileURLToPath(import.meta.url));
+  const css = await fs.readFile(path.join(here, "..", "src", "assets", "theme.css"), "utf8");
+  const rule = /(^|\n)([^\n{]*):has\(\.room-stage\)\s*\{([^}]*)\}/.exec(css);
+  assert.ok(rule, "a fullscreen rule exists");
+  assert.doesNotMatch(rule[2], /\.tag-page|\.index-page/,
+    `the rule must not name a page type, got "${rule[2].trim()}"`);
+  assert.match(rule[3], /padding:\s*0/, "it drops the article padding");
+  assert.match(rule[3], /min-height:\s*100dvh/, "and fills the viewport");
+});
+
+test("the front page article carries a stage the rule can match", async () => {
+  const { html, cleanup } = await fixture();
+  const article = /<article class="([^"]+)"/.exec(html);
+  assert.ok(article, "the page has an article");
+  assert.match(html, /<article[^>]*>\s*<div class="room-stage"/,
+    "the stage is the article's first child, as on a tag page");
   await cleanup();
 });

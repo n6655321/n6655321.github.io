@@ -106,8 +106,7 @@ article {
 
 
 
-.tag-page:has(.room-stage) {
-  
+article:has(.room-stage) {
   padding: 0;
   min-height: 100dvh;
   display: flex;

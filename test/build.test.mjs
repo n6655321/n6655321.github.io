@@ -28,6 +28,31 @@ async function buildTemp(overrides = {}) {
   return { out, result, options };
 }
 
+/**
+ * Slugs of the tag pages a build produced, sorted.
+ *
+ * These tests used to name tags from the demo vault, so editing that vault broke
+ * them. Discovering the slugs from the output keeps them about the generator's
+ * behaviour rather than about one particular set of notes.
+ */
+async function tagSlugs(out) {
+  const entries = await fs.readdir(path.join(out, "tags"), { withFileTypes: true });
+  return entries.filter((e) => e.isDirectory()).map((e) => e.name).sort();
+}
+
+/** Path segments of every note page a build produced, relative to `out`. */
+async function notePages(out) {
+  const found = [];
+  async function walk(dir, trail) {
+    for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
+      if (entry.isDirectory()) await walk(path.join(dir, entry.name), [...trail, entry.name]);
+      else if (entry.name === "index.html") found.push(trail);
+    }
+  }
+  await walk(path.join(out, "notes"), []);
+  return found.sort();
+}
+
 /** Every .html file under a directory. */
 async function htmlFiles(root) {
   const found = [];
@@ -132,6 +157,37 @@ async function authoredFixture(overrides = {}) {
   return { vault, out, html, result, cleanup };
 }
 
+
+/**
+ * A small vault with known contents, for tests that need to name specific tags
+ * or notes. The demo vault belongs to whoever is authoring rooms in it, so
+ * anything asserting on particular names owns its own fixture instead.
+ */
+async function knownFixture(overrides = {}) {
+  const vault = await fs.mkdtemp(path.join(os.tmpdir(), "tektite-known-"));
+  const out = await fs.mkdtemp(path.join(os.tmpdir(), "tektite-knownout-"));
+  const write = (name, lines) =>
+    fs.writeFile(path.join(vault, name), lines.join("\n"), "utf8");
+
+  // #wide strictly contains #narrow, and #side overlaps both without nesting.
+  await write("one.md", ["---", "tags: [wide, narrow]", "---", "# One", "", "See [[two]].", ""]);
+  await write("two.md", ["---", "tags: [wide, narrow, side]", "---", "# Two", ""]);
+  await write("three.md", ["---", "tags: [wide]", "---", "# Three", ""]);
+
+  const result = await build({
+    vault, out, title: "Known", base: "",
+    ignoreTags: [], ignorePaths: [], breakpoint: 768,
+    ...overrides,
+  });
+  return {
+    vault, out, result,
+    cleanup: async () => {
+      await fs.rm(vault, { recursive: true, force: true });
+      await fs.rm(out, { recursive: true, force: true });
+    },
+  };
+}
+
 test("an authored room renders its background and hotspots", async () => {
   const { html, result, cleanup } = await authoredFixture();
 
@@ -175,10 +231,12 @@ test("room images are copied into the output", async () => {
 
 test("pages carry no chrome outside the article", async () => {
   const { out } = await buildTemp();
+  const [firstTag] = await tagSlugs(out);
+  const [firstNote] = await notePages(out);
   for (const rel of [
     ["index.html"],
-    ["tags", "biology", "index.html"],
-    ["notes", "entropy", "index.html"],
+    ["tags", firstTag, "index.html"],
+    ["notes", ...firstNote, "index.html"],
   ]) {
     const html = await fs.readFile(path.join(out, ...rel), "utf8");
     const body = html
@@ -197,18 +255,19 @@ test("pages carry no chrome outside the article", async () => {
 
 test("every tag page is a room, with the list as its fallback", async () => {
   const { out, result } = await buildTemp();
-  for (const slug of ["biology", "cell", "energy", "physics"]) {
+  const slugs = await tagSlugs(out);
+  assert.ok(slugs.length > 0, "the vault has tags to check");
+  for (const slug of slugs) {
     const html = await fs.readFile(path.join(out, "tags", slug, "index.html"), "utf8");
     assert.match(html, /class="room-stage"/, `#${slug} has a room`);
     assert.match(html, /class="panels panels-fallback"/, `#${slug} hides its panels`);
   }
-  assert.ok(result.rooms > result.authoredRooms, "most rooms are generated");
   await fs.rm(out, { recursive: true, force: true });
 });
 
 test("a room page is only the image and its clickable objects", async () => {
   const { out } = await buildTemp();
-  for (const slug of ["biology", "cell"]) {
+  for (const slug of await tagSlugs(out)) {
     const html = await fs.readFile(path.join(out, "tags", slug, "index.html"), "utf8");
     const stage = html.slice(html.indexOf('<div class="room-stage"'), html.indexOf('<div class="panels'));
 
@@ -222,9 +281,10 @@ test("a room page is only the image and its clickable objects", async () => {
 
 test("the narrow-screen fallback still names its concept", async () => {
   const { out } = await buildTemp();
-  const html = await fs.readFile(path.join(out, "tags", "cell", "index.html"), "utf8");
+  const [slug] = await tagSlugs(out);
+  const html = await fs.readFile(path.join(out, "tags", slug, "index.html"), "utf8");
   // The heading belongs to the fallback list, not the room.
-  assert.match(html, /<h1 class="fallback-title">#cell<\/h1>/);
+  assert.match(html, /<h1 class="fallback-title">#[^<]+<\/h1>/);
   assert.ok(
     html.indexOf('class="fallback-title"') > html.indexOf('class="room-stage"'),
     "the title comes after the room, inside the fallback",
@@ -264,12 +324,15 @@ test("a declared object size reaches the page unchanged", async () => {
 });
 
 test("an object with no asset is a bare transparent region", async () => {
-  const { out } = await buildTemp();
-  const html = await fs.readFile(path.join(out, "tags", "biology", "index.html"), "utf8");
-  // The demo room declares #energy with an outline but no asset.
-  const bare = /<a class="hotspot hotspot-tag hotspot-bare[^"]*" href="\/tags\/energy\/"[^>]*>\s*<span class="hotspot-label">/.exec(html);
+  // A generated room places objects without assets, whatever the vault holds.
+  const { out, cleanup } = await knownFixture();
+  const html = await fs.readFile(path.join(out, "tags", "narrow", "index.html"), "utf8");
+  // Generated objects carry no asset, so they render bare: no <img>, no plate,
+  // just the label the cursor picks up.
+  const bare = /<a class="hotspot[^"]*hotspot-bare[^"]*"[^>]*>\s*<span class="hotspot-label">/.exec(html);
   assert.ok(bare, "the assetless object renders with no image and no plate");
-  await fs.rm(out, { recursive: true, force: true });
+  assert.doesNotMatch(html, /hotspot-bare[^>]*>\s*<img/, "and never wraps an image");
+  await cleanup();
 });
 
 test("a polygon object is clipped to its outline", async () => {
@@ -308,7 +371,8 @@ test("a room's background colour reaches the stage", async () => {
 
 test("the room script loads only on room pages", async () => {
   const { out } = await buildTemp();
-  const room = await fs.readFile(path.join(out, "tags", "biology", "index.html"), "utf8");
+  const [slug] = await tagSlugs(out);
+  const room = await fs.readFile(path.join(out, "tags", slug, "index.html"), "utf8");
   assert.match(room, /<script src="\/assets\/room\.js" defer><\/script>/);
 
   // The front page is a room too, so it loads the script; the tag index and
@@ -316,7 +380,8 @@ test("the room script loads only on room pages", async () => {
   const home = await fs.readFile(path.join(out, "index.html"), "utf8");
   assert.match(home, /<script src="\/assets\/room\.js" defer><\/script>/);
 
-  for (const rel of [["tags", "index.html"], ["notes", "entropy", "index.html"]]) {
+  const [firstNote] = await notePages(out);
+  for (const rel of [["tags", "index.html"], ["notes", ...firstNote, "index.html"]]) {
     const html = await fs.readFile(path.join(out, ...rel), "utf8");
     assert.doesNotMatch(html, /<script src=/, `${rel.join("/")} loads no script`);
   }
@@ -324,36 +389,33 @@ test("the room script loads only on room pages", async () => {
 });
 
 test("generated rooms use the shipped placeholder background", async () => {
-  const { out } = await buildTemp();
-  const html = await fs.readFile(path.join(out, "tags", "cell", "index.html"), "utf8");
+  // knownFixture declares no room notes, so every room it builds is generated.
+  const { out, cleanup } = await knownFixture();
+  const html = await fs.readFile(path.join(out, "tags", "wide", "index.html"), "utf8");
   assert.match(html, /class="room-bg" src="\/assets\/placeholder\.svg"/);
   const ok = await fs
     .stat(path.join(out, "assets", "placeholder.svg"))
     .then(() => true, () => false);
   assert.ok(ok, "the placeholder is copied into the output");
-  await fs.rm(out, { recursive: true, force: true });
+  await cleanup();
 });
 
 test("a generated room links to every connected concept and note", async () => {
-  const { out } = await buildTemp();
-  const html = await fs.readFile(path.join(out, "tags", "cell", "index.html"), "utf8");
-  // #cell is contained by #biology, overlaps #energy, and holds three notes.
-  for (const href of [
-    "/tags/biology/",
-    "/notes/chloroplast/",
-    "/notes/mitochondrion/",
-    "/notes/photosynthesis/",
-  ]) {
-    assert.match(html, new RegExp(`href="${href.replace(/\//g, "\/")}"`), `links to ${href}`);
+  const { out, cleanup } = await knownFixture();
+  const html = await fs.readFile(path.join(out, "tags", "narrow", "index.html"), "utf8");
+  // #narrow is contained by #wide, overlaps #side, and holds both its notes.
+  for (const href of ["/tags/wide/", "/tags/side/", "/notes/one/", "/notes/two/"]) {
+    assert.match(html, new RegExp(`href="${href}"`), `links to ${href}`);
   }
-  await fs.rm(out, { recursive: true, force: true });
+  await cleanup();
 });
 
 test("builds are byte-identical across runs", async () => {
   const a = await buildTemp();
   const b = await buildTemp();
+  const [slug] = await tagSlugs(a.out);
   const read = (dir) =>
-    fs.readFile(path.join(dir, "tags", "energy", "index.html"), "utf8");
+    fs.readFile(path.join(dir, "tags", slug, "index.html"), "utf8");
   assert.equal(await read(a.out), await read(b.out), "generation must be deterministic");
   await fs.rm(a.out, { recursive: true, force: true });
   await fs.rm(b.out, { recursive: true, force: true });
@@ -404,14 +466,14 @@ test("unresolved hotspot targets are reported, not silently dropped", async () =
 });
 
 test("note pages render wikilinks as working links", async () => {
-  const { out } = await buildTemp();
+  const { out, cleanup } = await knownFixture();
   const html = await fs.readFile(
-    path.join(out, "notes", "photosynthesis", "index.html"),
+    path.join(out, "notes", "one", "index.html"),
     "utf8",
   );
-  assert.match(html, /href="\/notes\/chloroplast\/"/, "[[chloroplast]] resolves");
+  assert.match(html, /href="\/notes\/two\/"/, "[[two]] resolves to that note");
   assert.doesNotMatch(html, /\[\[/, "no raw wikilink syntax survives");
-  await fs.rm(out, { recursive: true, force: true });
+  await cleanup();
 });
 
 test("base path prefixes every generated link", async () => {
@@ -428,14 +490,14 @@ test("base path prefixes every generated link", async () => {
 });
 
 test("ignored tags are excluded from the site", async () => {
-  const { out, result } = await buildTemp({ ignoreTags: ["energy"] });
+  const { out, result, cleanup } = await knownFixture({ ignoreTags: ["side"] });
   const exists = await fs
-    .stat(path.join(out, "tags", "energy"))
+    .stat(path.join(out, "tags", "side"))
     .then(() => true)
     .catch(() => false);
-  assert.equal(exists, false, "#energy gets no room");
-  assert.ok(result.tags >= 1);
-  await fs.rm(out, { recursive: true, force: true });
+  assert.equal(exists, false, "#side gets no room");
+  assert.ok(result.tags >= 1, "the other tags survive");
+  await cleanup();
 });
 
 test("output escapes HTML in note content", async () => {
@@ -485,4 +547,32 @@ test("room labels and asset paths cannot break out of their attributes", async (
   assert.match(html, /&quot;|&gt;/, "the payload is escaped instead");
   await fs.rm(out, { recursive: true, force: true });
   await fs.rm(src, { recursive: true, force: true });
+});
+
+test("apostrophes in names produce working links", async () => {
+  // encodeURIComponent leaves `'` alone, and escapeHtml then turned it into
+  // `&#39;` inside the href, pointing at a file that does not exist.
+  const vault = await fs.mkdtemp(path.join(os.tmpdir(), "tektite-apos-"));
+  const out = await fs.mkdtemp(path.join(os.tmpdir(), "tektite-aposout-"));
+  await fs.writeFile(
+    // Apostrophe and parentheses: legal in a URL, so encodeURIComponent leaves
+    // them, but the apostrophe then becomes an entity when the href is escaped.
+    path.join(vault, "l'innéité (dite).md"),
+    ["---", "tags: [test]", "---", "# Innéité", ""].join("\n"),
+    "utf8",
+  );
+  await build({
+    vault, out, title: "T", base: "",
+    ignoreTags: [], ignorePaths: [], breakpoint: 768,
+  });
+
+  const html = await fs.readFile(path.join(out, "tags", "test", "index.html"), "utf8");
+  assert.doesNotMatch(html, /href="[^"]*&#39;/, "no HTML entity inside a URL");
+  for (const [, href] of html.matchAll(/href="(\/notes\/[^"]+)"/g)) {
+    const target = path.join(out, decodeURIComponent(href), "index.html");
+    const ok = await fs.stat(target).then(() => true, () => false);
+    assert.ok(ok, `${href} must resolve to a real file`);
+  }
+  await fs.rm(vault, { recursive: true, force: true });
+  await fs.rm(out, { recursive: true, force: true });
 });

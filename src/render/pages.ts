@@ -2,7 +2,7 @@ import MarkdownIt from "markdown-it";
 import type { Note, Tag, VaultIndex } from "../types.js";
 import { renderRoomStage, assetHref } from "./room.js";
 import { attachmentKind, resolveAttachment } from "../parse/attachments.js";
-import { escapeHtml, shell } from "./html.js";
+import { encodePathSegment, escapeHtml, shell } from "./html.js";
 const md = new MarkdownIt({ html: true, linkify: true, typographer: true });
 export function tagHref(base: string, tag: Tag): string {
     return `${base}/tags/${tag.slug}/`;
@@ -16,7 +16,7 @@ export function noteOutputPath(slug: string): string[] {
 export function noteHref(base: string, note: {
     slug: string;
 }): string {
-    return `${base}/${noteOutputPath(note.slug).map(encodeURIComponent).join("/")}/`;
+    return `${base}/${noteOutputPath(note.slug).map(encodePathSegment).join("/")}/`;
 }
 function plural(n: number, word: string): string {
     return `${n} ${word}${n === 1 ? "" : "s"}`;

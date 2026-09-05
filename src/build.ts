@@ -79,7 +79,14 @@ function renderHome(index: VaultIndex, base: string, siteTitle: string): {
     unresolved: string[];
 } {
     const room = index.rooms.get(HOME_TAG);
-    const stage = renderRoomStage(room, index, base, tagHref, noteHref);
+
+    // A room with no objects is a dead end: the list that would carry the only
+    // links is hidden above the breakpoint, leaving nothing to click. That
+    // happens on a vault with no tags at all, so fall back to the list at every
+    // width rather than showing an empty picture.
+    const stage = room?.hotspots.length
+        ? renderRoomStage(room, index, base, tagHref, noteHref)
+        : { html: "", unresolved: [] };
 
     const tags = [...index.tags.values()].sort((a, b) => b.notes.length - a.notes.length || a.name.localeCompare(b.name));
     const roots = tags.filter((t) => t.parents.length === 0).slice(0, 12);

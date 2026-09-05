@@ -223,6 +223,32 @@ which concept they belong to are hard to read. CSS picks between them:
 - At or above `--breakpoint` (768px by default), the room.
 - Below it, the list, since a room image would be too small to click.
 
+## Deploying to GitHub Pages
+
+`.github/workflows/deploy.yml` builds the site and publishes it. It runs on
+demand: open the Actions tab, pick "Deploy to GitHub Pages", and press Run
+workflow.
+
+Enable Pages first, once: Settings, Pages, and set Source to GitHub Actions.
+
+Three optional inputs, each with a default:
+
+| Input | Default | Meaning |
+| --- | --- | --- |
+| `vault` | `test/vault` | Which vault to build, relative to the repository root |
+| `title` | `tektite` | Site title |
+| `base` | detected | Base path; see below |
+
+The base path is worked out from the repository name. A repository called
+`<owner>.github.io` is a user site served from the domain root and gets no base
+path; anything else is a project site served from `/<repo>/` and gets that, since
+unprefixed links would otherwise resolve to the wrong place. Set the `base` input
+to override the detection, for a custom domain for instance.
+
+The workflow runs `npm test` before building, so a failure stops the deploy
+rather than publishing a broken site. It also writes a `.nojekyll` file, without
+which Pages would drop the files whose names begin with an underscore.
+
 ## How containment is decided
 
 Tag A strictly contains B when every note tagged `#B` is also tagged `#A`, and

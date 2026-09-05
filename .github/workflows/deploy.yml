@@ -1,0 +1,97 @@
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      vault:
+        description: Vault to build, relative to the repository root
+        required: false
+        default: test/vault
+      title:
+        description: Site title
+        required: false
+        default: tektite
+      base:
+        description: >-
+          Base path. Leave empty to detect it: a repository named
+          <owner>.github.io is served from the root, anything else from /<repo>/.
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; queue the newer one and let the current finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      # The suite covers link integrity across every generated page, so a broken
+      # build fails here rather than being published.
+      - run: npm test
+
+      - name: Build the site
+        env:
+          VAULT: ${{ inputs.vault || 'test/vault' }}
+          TITLE: ${{ inputs.title || 'tektite' }}
+          BASE_INPUT: ${{ inputs.base }}
+        run: |
+          set -euo pipefail
+          OWNER="${GITHUB_REPOSITORY%%/*}"
+          REPO="${GITHUB_REPOSITORY#*/}"
+
+          # A user or organisation site lives in a repository named
+          # <owner>.github.io and is served from the domain root, so it takes no
+          # base path. Every other repository is a project site under /<repo>/,
+          # where an unprefixed link would resolve to the wrong place.
+          if [ -n "$BASE_INPUT" ]; then
+            BASE="$BASE_INPUT"
+          elif [ "$(echo "$REPO" | tr '[:upper:]' '[:lower:]')" = "$(echo "$OWNER" | tr '[:upper:]' '[:lower:]').github.io" ]; then
+            BASE=""
+          else
+            BASE="/$REPO"
+          fi
+
+          echo "Building $VAULT with base '${BASE:-(root)}'"
+          if [ -n "$BASE" ]; then
+            node dist/cli.js build "$VAULT" --out site --base "$BASE" --title "$TITLE"
+          else
+            node dist/cli.js build "$VAULT" --out site --title "$TITLE"
+          fi
+
+      # Pages serves the archive as-is, and Jekyll would otherwise drop files and
+      # folders whose names begin with an underscore.
+      - run: touch site/.nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

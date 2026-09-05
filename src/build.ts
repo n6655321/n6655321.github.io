@@ -4,9 +4,10 @@ import { fileURLToPath } from "node:url";
 import type { BuildOptions, VaultIndex } from "./types.js";
 import { readVault, walkVaultFiles } from "./parse/vault.js";
 import { collectRooms } from "./parse/rooms.js";
-import { PLACEHOLDER_IMAGE, generateRooms } from "./graph/autoroom.js";
+import { HOME_TAG, PLACEHOLDER_IMAGE, generateHomeRoom, generateRooms } from "./graph/autoroom.js";
 import { buildTags } from "./graph/containment.js";
-import { noteOutputPath, renderNotePage, renderTagIndex, renderTagPage, tagHref, } from "./render/pages.js";
+import { noteHref, noteOutputPath, renderNotePage, renderTagIndex, renderTagPage, tagHref, } from "./render/pages.js";
+import { renderRoomStage } from "./render/room.js";
 import { escapeHtml, shell } from "./render/html.js";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export async function indexVault(options: BuildOptions): Promise<VaultIndex> {
@@ -23,6 +24,10 @@ export async function indexVault(options: BuildOptions): Promise<VaultIndex> {
         root: options.vault,
     };
     index.rooms = generateRooms(index);
+
+    // The front page is a room too, built from a synthetic `#home` tag: no note
+    // carries that tag, so there is nothing to derive one from otherwise.
+    index.rooms.set(HOME_TAG, generateHomeRoom(index, collectRooms(notes).get(HOME_TAG)));
     for (const room of index.rooms.values()) {
         if (room.image && room.image !== PLACEHOLDER_IMAGE) {
             index.assets.add(room.image.replace(/^\.?\//, ""));
@@ -62,7 +67,20 @@ async function copyVaultAssets(index: VaultIndex, outDir: string): Promise<strin
     }
     return missing.sort();
 }
-function renderHome(index: VaultIndex, base: string, siteTitle: string): string {
+/**
+ * The front page.
+ *
+ * Like a tag page it is a room with the list as its narrow-screen fallback.
+ * The room comes from `#home`, a synthetic tag whose objects are the top-level
+ * concepts unless a `#home` note places its own.
+ */
+function renderHome(index: VaultIndex, base: string, siteTitle: string): {
+    html: string;
+    unresolved: string[];
+} {
+    const room = index.rooms.get(HOME_TAG);
+    const stage = renderRoomStage(room, index, base, tagHref, noteHref);
+
     const tags = [...index.tags.values()].sort((a, b) => b.notes.length - a.notes.length || a.name.localeCompare(b.name));
     const roots = tags.filter((t) => t.parents.length === 0).slice(0, 12);
     const cards = roots
@@ -77,23 +95,42 @@ function renderHome(index: VaultIndex, base: string, siteTitle: string): string 
     </a></li>`;
     })
         .join("");
-    const body = `<article class="index-page">
-  <header class="page-head">
-    <h1>${escapeHtml(siteTitle)}</h1>
-    <p class="lede">${index.notes.size} note${index.notes.size === 1 ? "" : "s"}, ${index.tags.size} concept${index.tags.size === 1 ? "" : "s"}.</p>
-  </header>
-  <section class="panel">
+
+    const panels = `<section class="panel">
     <h2>Start here</h2>
-    <p class="panel-note">The broadest concepts — those no other concept contains.</p>
+    <p class="panel-note">The broadest concepts, those no other concept contains.</p>
     <ul class="tag-grid">${cards}</ul>
   </section>
   <section class="panel">
     <h2>Everything</h2>
     <p class="panel-note"><a href="${base}/tags/">Browse all ${index.tags.size} concept${index.tags.size === 1 ? "" : "s"} →</a></p>
-  </section>
+  </section>`;
+
+    const panelClass = stage.html ? "panels panels-fallback" : "panels";
+    const heading = `<h1 class="fallback-title">${escapeHtml(siteTitle)}</h1>`;
+
+    const body = stage.html
+        ? `<article class="index-page">
+  ${stage.html}
+  <div class="${panelClass}">
+    ${heading}
+    ${panels}
+  </div>
+</article>`
+        : `<article class="index-page">
+  <header class="page-head">
+    <h1>${escapeHtml(siteTitle)}</h1>
+    <p class="lede">${index.notes.size} note${index.notes.size === 1 ? "" : "s"}, ${index.tags.size} concept${index.tags.size === 1 ? "" : "s"}.</p>
+  </header>
+  <div class="${panelClass}">${panels}</div>
 </article>`;
-    return shell({ title: "Home", siteTitle, base, body });
+
+    return {
+        html: shell({ title: "Home", siteTitle, base, room: Boolean(stage.html), body }),
+        unresolved: stage.unresolved,
+    };
 }
+
 export interface BuildResult {
     notes: number;
     tags: number;
@@ -125,7 +162,9 @@ export async function build(options: BuildOptions): Promise<BuildResult> {
     await fs.mkdir(out, { recursive: true });
     let pages = 0;
     const unresolved: string[] = [];
-    await writePage(out, "index.html", renderHome(index, base, title));
+    const home = renderHome(index, base, title);
+    await writePage(out, "index.html", home.html);
+    for (const target of home.unresolved) unresolved.push(`#${HOME_TAG} -> ${target}`);
     pages++;
     await writePage(out, path.join("tags", "index.html"), renderTagIndex(index, base, title));
     pages++;
@@ -146,7 +185,7 @@ export async function build(options: BuildOptions): Promise<BuildResult> {
     // A room note naming a tag no note carries decorates nothing, and would
     // otherwise be dropped without a word.
     for (const room of index.authoredRooms) {
-        if (!index.tags.has(room.tag)) {
+        if (room.tag !== HOME_TAG && !index.tags.has(room.tag)) {
             sizeWarnings.push(`${room.source}: no note is tagged #${room.tag}, so this room is unused`);
         }
     }

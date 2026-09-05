@@ -136,7 +136,8 @@ test("an authored room renders its background and hotspots", async () => {
   const { html, result, cleanup } = await authoredFixture();
 
   assert.equal(result.authoredRooms, 1, "the fixture declares one room");
-  assert.equal(result.rooms, result.tags, "every tag gets a room");
+  // Every tag gets a room, plus the synthetic #home one for the front page.
+  assert.equal(result.rooms, result.tags + 1, "every tag gets a room, and so does home");
   assert.deepEqual(result.unresolved, [], "every hotspot target resolves");
   assert.deepEqual(result.missingAssets, [], "every referenced asset exists");
 
@@ -310,7 +311,12 @@ test("the room script loads only on room pages", async () => {
   const room = await fs.readFile(path.join(out, "tags", "biology", "index.html"), "utf8");
   assert.match(room, /<script src="\/assets\/room\.js" defer><\/script>/);
 
-  for (const rel of [["index.html"], ["tags", "index.html"], ["notes", "entropy", "index.html"]]) {
+  // The front page is a room too, so it loads the script; the tag index and
+  // note pages are not.
+  const home = await fs.readFile(path.join(out, "index.html"), "utf8");
+  assert.match(home, /<script src="\/assets\/room\.js" defer><\/script>/);
+
+  for (const rel of [["tags", "index.html"], ["notes", "entropy", "index.html"]]) {
     const html = await fs.readFile(path.join(out, ...rel), "utf8");
     assert.doesNotMatch(html, /<script src=/, `${rel.join("/")} loads no script`);
   }

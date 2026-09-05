@@ -210,6 +210,38 @@ Each field falls back on its own:
 keywords. It is checked against an allowlist before reaching the page, so a
 colour cannot escape its `style` attribute.
 
+## The front page
+
+The front page is a room as well, built from `#home`. No note carries that tag,
+so it is synthetic: without a room note the room holds the top-level concepts,
+scattered like any generated room.
+
+Writing a `#home` note takes it over completely:
+
+```yaml
+---
+room: home
+image: assets/rooms/entrance.jpg
+background: "#2a2320"
+width: 3600
+height: 3000
+objects:
+  - target: "#biology"
+    label: The laboratory
+    x: 12
+    y: 40
+    w: 18
+    h: 34
+---
+```
+
+Unlike an ordinary room the generator adds nothing alongside your objects. The
+front door is a choice of which concepts to expose, not somewhere to spill every
+root concept, so what you place is exactly what appears.
+
+`#home` is not browsable: it produces no `/tags/home/` page, only the site root.
+The list of concepts remains the narrow-screen fallback, as on any room page.
+
 ## The list fallback
 
 A room page holds the image and its objects, with no heading or link counts. The

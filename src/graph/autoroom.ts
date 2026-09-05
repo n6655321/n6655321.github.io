@@ -211,3 +211,36 @@ export function generateRooms(index: VaultIndex): Map<string, RoomDefinition> {
     }
     return rooms;
 }
+
+export const HOME_TAG = "home";
+
+/**
+ * Build the room for the site's front page.
+ *
+ * `#home` is not a real tag: no note carries it, so there is nothing to derive
+ * a room from. A synthetic tag is used instead, whose children are the
+ * top-level concepts, which lets the front page go through exactly the same
+ * generation and rendering as every other room.
+ *
+ * An authored `#home` note is taken as complete. Unlike an ordinary room the
+ * generator adds nothing to it: the front door is a deliberate choice of which
+ * concepts to expose, not a place to spill every root concept into.
+ */
+export function generateHomeRoom(index: VaultIndex, authored: RoomDefinition | undefined): RoomDefinition {
+    const roots = [...index.tags.values()]
+        .filter((tag) => tag.parents.length === 0)
+        .sort((a, b) => b.notes.length - a.notes.length || a.name.localeCompare(b.name))
+        .map((tag) => tag.name);
+
+    const synthetic: Tag = {
+        name: HOME_TAG,
+        label: HOME_TAG,
+        slug: HOME_TAG,
+        notes: [],
+        children: authored?.hotspots.length ? [] : roots,
+        parents: [],
+        siblings: [],
+    };
+
+    return generateRoom(synthetic, index, authored);
+}

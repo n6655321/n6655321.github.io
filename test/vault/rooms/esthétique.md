@@ -18,8 +18,8 @@ objects:
     label: Boards of Canada, écouter les enfants
     asset: assets/objects/boc.gif
     position: absolute
-    x: 2000
-    y: 1345
+    x: 1700
+    y: 345
     size: relative
     w: 15
     h: 15

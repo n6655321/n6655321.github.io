@@ -29,7 +29,7 @@
               "state": {
                 "file": "test/vault/notes/Boards of Canada, écouter les enfants.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
               "title": "Boards of Canada, écouter les enfants"
@@ -206,8 +206,9 @@
   },
   "active": "e81fcbb14052edb4",
   "lastOpenFiles": [
-    "test/vault/notes/Can there be conceptual-engineering without a conceptual-engineer Algorithmic governance and algospeak, a case study of unalive.md",
     "test/vault/notes/Boards of Canada, écouter les enfants.md",
+    "test/vault/notes/Boards of Canada, écouter les enfants.md",
+    "test/vault/notes/Can there be conceptual-engineering without a conceptual-engineer Algorithmic governance and algospeak, a case study of unalive 1.md",
     "test/vault/notes/Trois façons de réfuter l'appel à la nature.md",
     "test/vault/rooms/esthétique.md",
     "test/vault/assets/rooms/esthétique1.png",

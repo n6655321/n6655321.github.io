@@ -1,6 +1,6 @@
 import type { RoomDefinition, RoomHotspot, Tag, VaultIndex } from "../types.js";
 import { PLACEHOLDER_IMAGE } from "../graph/autoroom.js";
-import { escapeHtml } from "./html.js";
+import { encodePathSegment, escapeHtml } from "./html.js";
 export interface ResolvedHotspot {
     hotspot: RoomHotspot;
     href: string;
@@ -12,7 +12,7 @@ export function assetHref(base: string, vaultPath: string): string {
     const clean = vaultPath.replace(/^\.?\//, "");
     if (clean === PLACEHOLDER_IMAGE)
         return `${base}/assets/placeholder.svg`;
-    return `${base}/vault/${clean.split("/").map(encodeURIComponent).join("/")}`;
+    return `${base}/vault/${clean.split("/").map(encodePathSegment).join("/")}`;
 }
 function cleanTarget(target: string): {
     name: string;

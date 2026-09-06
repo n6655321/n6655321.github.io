@@ -8,6 +8,22 @@ const ESCAPES: Record<string, string> = {
 export function escapeHtml(value: string): string {
     return value.replace(/[&<>"']/g, (c) => ESCAPES[c]!);
 }
+
+/**
+ * Percent-encode one path segment for use in a URL.
+ *
+ * `encodeURIComponent` leaves `'`, `!`, `(`, `)` and `*` alone: they are legal
+ * in a URL. But these URLs are then written into an HTML attribute and escaped,
+ * which turns `'` into `&#39;` — and that entity becomes part of the link,
+ * pointing at a file that does not exist. Encoding them here means the escaper
+ * finds nothing left to change.
+ */
+export function encodePathSegment(segment: string): string {
+    return encodeURIComponent(segment).replace(
+        /[!'()*]/g,
+        (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`,
+    );
+}
 export interface ShellOptions {
     title: string;
     siteTitle: string;

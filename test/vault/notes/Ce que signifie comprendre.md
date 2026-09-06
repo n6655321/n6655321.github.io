@@ -149,4 +149,4 @@ Globalement, ces deux articles, parus la même année et pourtant opérant dans 
 Fin août 2026
 
 Restons dérangées,
-[[Qui suis-je ?|N]].
+[[Qui suis-je|N]].

@@ -9,4 +9,4 @@ tags:
 ![[zineFE.pdf]]
 
 Restons dérangés,
-[[Qui suis-je ?|N]].
+[[Qui suis-je|N]].

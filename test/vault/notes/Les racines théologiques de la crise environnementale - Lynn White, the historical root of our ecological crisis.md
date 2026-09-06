@@ -3,6 +3,7 @@ title: Les racines théologiques de la crise environnementale - Lynn White, the 
 tags:
   - métaphysique
 ---
+# Les racines théologiques de la crise environnementale - Lynn White, the historical root of our ecological crisis
 ## Introduction : deux approches
 
 ### 1)
@@ -142,4 +143,4 @@ Vouloir modifier lesdits “axiomes chrétiens” afin de repenser notre axiolog
 29 mai 2026
 
 Restons dérangés,
-[[Qui suis-je ?|N]].
+[[Qui suis-je|N]].

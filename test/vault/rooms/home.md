@@ -49,7 +49,7 @@ objects:
     size: relative
     w: 100
     h: 100
-  - target: "[[Qui suis-je ?]]"
+  - target: "[[Qui suis-je]]"
     label: Qui suis-je ?
     position: absolute
     x1: 2912

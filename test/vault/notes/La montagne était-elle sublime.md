@@ -1,10 +1,11 @@
 ---
-title: La montagne était-elle sublime ?
+title: La montagne était-elle sublime
 tags:
   - métaphysique
   - esthétique
 ---
 
+## La montagne était-elle sublime ?
 
 En ce moment je suis à la montagne. Le paysage est beau ; on serait même tenté de dire de certains sommets qu'ils sont sublimes. Mais le sont-ils? Rendez-vous à la première partie de la *critique de la faculté de juger* (abrégé CFJ) pour y réfléchir.
 
@@ -95,4 +96,4 @@ D'autre part, je reste froussarde et j'ai du mal à me sentir plus puissante que
 20 août 2026
 
 Restons dérangés,
-[[Qui suis-je ?|N]].
+[[Qui suis-je|N]].

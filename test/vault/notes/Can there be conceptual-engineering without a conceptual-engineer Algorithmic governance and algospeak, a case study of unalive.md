@@ -1,5 +1,5 @@
 ---
-title: Can there be conceptual-engineering without a conceptual-engineer ? Algorithmic governance and algospeak, a case study of unalive
+title: Can there be conceptual-engineering without a conceptual-engineer Algorithmic governance and algospeak, a case study of unalive
 tags:
   - revuedarticle
   - philodulangage
@@ -91,7 +91,7 @@ To conclude, TikTok’s censorship policy, or what users collectively perceive a
 Juillet et août 2026
 
 Restons dérangées,
-[[Qui suis-je ?|N]].
+[[Qui suis-je|N]].
 ## Sources: 
 
 Brun, G. (2016). “Explication as a Method of Conceptual Re-Engineering.” _Erkenntnis_ 81: 1211–1241.  

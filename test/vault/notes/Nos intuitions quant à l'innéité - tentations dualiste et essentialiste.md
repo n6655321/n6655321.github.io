@@ -76,4 +76,4 @@ Ma surprise est sûrement liée à un bagage platonicien, où l'essence, l'idée
 30 août 2026
 
 Restons dérangés,
-[[Qui suis-je ?|N]].
+[[Qui suis-je|N]].

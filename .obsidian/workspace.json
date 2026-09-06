@@ -11,15 +11,32 @@
             "id": "c0e58056a26c120d",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "test/vault/assets/rooms/philocognitive1.png"
+                "file": "test/vault/notes/Trois façons de réfuter l'appel à la nature.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "philocognitive1"
+              "icon": "lucide-file",
+              "title": "Trois façons de réfuter l'appel à la nature"
+            }
+          },
+          {
+            "id": "e81fcbb14052edb4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "test/vault/notes/Boards of Canada, écouter les enfants.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "Boards of Canada, écouter les enfants"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -81,7 +98,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 455.5
   },
   "right": {
     "id": "7c1a6aacacebc89b",
@@ -183,15 +200,29 @@
       "daily-notes:Ouvrir la note quotidienne": false,
       "templates:Insérer le modèle": false,
       "command-palette:Ouvrir la palette de commandes": false,
-      "bases:Créer une nouvelle base": false
+      "bases:Créer une nouvelle base": false,
+      "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c0e58056a26c120d",
+  "active": "9e6366f7df61c2cd",
   "lastOpenFiles": [
+    "test/vault/rooms/esthétique.md",
+    "test/vault/assets/rooms/esthétique1.png",
+    "test/vault/assets/objects/montagne.png",
+    "test/vault/assets/objects/boc.gif",
+    "test/vault/assets/objects/appel.png",
+    "test/vault/notes/Boards of Canada, écouter les enfants.md",
+    "test/vault/notes/Trois façons de réfuter l'appel à la nature.md",
+    "test/vault/notes/Qui suis-je.md",
+    "test/vault/notes/Can there be conceptual-engineering without a conceptual-engineer Algorithmic governance and algospeak, a case study of unalive.md",
+    "test/vault/notes/Ce que signifie comprendre.md",
+    "test/vault/notes/Des mots qui se ressemblent mais qui n'ont rien à voir.md",
+    "test/vault/notes/Les racines théologiques de la crise environnementale - Lynn White, the historical root of our ecological crisis.md",
+    "test/vault/notes/La montagne était-elle sublime.md",
+    "test/vault/assets/rooms/philocognitive1.png",
     "test/vault/assets/rooms/philodulangage1.jpeg",
     "test/vault/assets/rooms/revuedarticle.jpeg",
     "test/vault/rooms/home.md",
-    "test/vault/rooms/esthétique.md",
     "test/vault/assets/rooms/home.png"
   ]
 }

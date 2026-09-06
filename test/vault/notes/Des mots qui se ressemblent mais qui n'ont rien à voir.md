@@ -113,7 +113,7 @@ Mais j'ai l'intuition que la formalisation de l'intensionnalité que pourrait pe
 2 septembre 2026
 
 Restons dérangées,
-[[Qui suis-je ?|N]].
+[[Qui suis-je|N]].
 
 Sources:
 -Auroux, S., Deschamps, J., Kouloughli, D.; (2004), "Pensée et langage", _La philosophie du langage_, Presses Universitaires de France, ISSN 0291-0489

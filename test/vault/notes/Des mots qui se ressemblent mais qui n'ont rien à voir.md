@@ -110,6 +110,8 @@ Pouvoir traiter l'entièreté du langage naturel de manière extensionnelle auto
 Turing en avait certainement l'intuition : son dernier projet était ces structures qui portent son nom, des ordinateurs dotés d'un corps et d'une sensorialité (l'idée de Turing était de ramener, selon la légende urbaine, son amour de jeunesse, mort alors qu'il n'avait que 17 ans). 
 Mais j'ai l'intuition que la formalisation de l'intensionnalité que pourrait permettre la théorie des types n'est pas sans lien avec le corps, en tant que les fonctions sont prises comme des actions, et que ces actions supposent un agent ou une force, en bref du mouvement et du contraste.
 
+(Nous n'avons que 8 planètes depuis 2006, si une chose est à retenir.)
+
 2 septembre 2026
 
 Restons dérangées,

@@ -110,5 +110,21 @@ objects:
     y5: 1680
     size: relative
     w: 100
+    h: 100  
+  - target: "#histoire"
+    label: Histoire(?)
+    position: absolute
+    x1: 2492
+    y1: 520
+    x2: 2370
+    y2: 521
+    x3: 2249
+    y3: 675
+    x4: 2234
+    y4: 1413
+    x5: 2492
+    y5: 1387
+    size: relative
+    w: 100
     h: 100
 ---

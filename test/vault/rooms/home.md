@@ -112,7 +112,7 @@ objects:
     w: 100
     h: 100  
   - target: "#histoire"
-    label: Histoire(?)
+    label: Histoire
     position: absolute
     x1: 2492
     y1: 520

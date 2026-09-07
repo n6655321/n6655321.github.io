@@ -9,8 +9,8 @@ objects:
     label: Fanzine informel - La guerre de 100 ans
     asset: assets/objects/guerre100ans.png
     position: absolute
-    x: 2533
-    y: 1112
+    x: 430
+    y: 1000
     size: relative
     w: 15
     h: 15

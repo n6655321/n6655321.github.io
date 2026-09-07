@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "test/vault/notes/Fanzine informel - La guerre de 100 ans.md",
+                "file": "test/vault/rooms/philodulangage.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
-              "title": "Fanzine informel - La guerre de 100 ans"
+              "title": "philodulangage"
             }
           }
         ],
@@ -220,16 +220,18 @@
   },
   "active": "9b1e7b6b7b3f2cad",
   "lastOpenFiles": [
-    "test/vault/notes/Fanzine informel - Risky-choice framing and rational decision-making.md",
-    "test/vault/rooms/histoire.md",
     "test/vault/rooms/métaphysique.md",
-    "test/vault/assets/rooms/métaphysique.jpg",
-    "test/vault/assets/rooms/histoire.jpg",
-    "test/vault/assets/rooms/esthétique1.png",
+    "test/vault/rooms/méthodologie.md",
     "test/vault/notes/Fanzine informel - La guerre de 100 ans.md",
+    "test/vault/notes/Des mots qui se ressemblent mais qui n'ont rien à voir.md",
+    "test/vault/rooms/histoire.md",
+    "test/vault/rooms/home.md",
+    "test/vault/assets/rooms/histoire.jpg",
+    "test/vault/notes/Fanzine informel - Risky-choice framing and rational decision-making.md",
+    "test/vault/assets/rooms/métaphysique.jpg",
+    "test/vault/assets/rooms/esthétique1.png",
     "test/vault/assets/figures/guerrecentans.pdf",
     "test/vault/assets/figures/schema1.jpeg",
-    "test/vault/rooms/home.md",
     "test/vault/assets/objects/guerre100ans.png",
     "test/vault/assets/rooms/home.png",
     "test/vault/assets/objects/intuition.png",
@@ -242,7 +244,6 @@
     "test/vault/assets/objects/appel.png",
     "test/vault/notes/Qui suis-je.md",
     "test/vault/notes/Ce que signifie comprendre.md",
-    "test/vault/notes/Des mots qui se ressemblent mais qui n'ont rien à voir.md",
     "test/vault/notes/Les racines théologiques de la crise environnementale - Lynn White, the historical root of our ecological crisis.md",
     "test/vault/notes/La montagne était-elle sublime.md"
   ]

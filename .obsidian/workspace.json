@@ -8,49 +8,35 @@
         "type": "tabs",
         "children": [
           {
-            "id": "c0e58056a26c120d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "test/vault/notes/Trois façons de réfuter l'appel à la nature.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Trois façons de réfuter l'appel à la nature"
-            }
-          },
-          {
-            "id": "e81fcbb14052edb4",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "test/vault/notes/Boards of Canada, écouter les enfants.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Boards of Canada, écouter les enfants"
-            }
-          },
-          {
             "id": "9b1e7b6b7b3f2cad",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "test/vault/rooms/métaphysique.md",
+                "file": "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
-              "title": "métaphysique"
+              "title": "Verneliba - Sinn, Bedeutung, Extension, Intension"
+            }
+          },
+          {
+            "id": "9393c65d3d815350",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Verneliba - Sinn, Bedeutung, Extension, Intension"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -218,14 +204,28 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "9b1e7b6b7b3f2cad",
+  "active": "9393c65d3d815350",
   "lastOpenFiles": [
+    "test/vault/notes/Des mots qui se ressemblent mais qui n'ont rien à voir.md",
+    "test/vault/notes/Fanzine informel - La guerre de 100 ans.md",
+    "test/vault/notes/Méta-verneliba - 0+b = b+0, Rocq et le spectre de Frege.md",
+    "test/vault/notes/Les racines théologiques de la crise environnementale - Lynn White, the historical root of our ecological crisis.md",
+    "test/vault/notes/Nos intuitions quant à l'innéité - tentations dualiste et essentialiste.md",
+    "test/vault/notes/Qui suis-je.md",
+    "test/vault/notes/Trois façons de réfuter l'appel à la nature.md",
+    "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
+    "Pasted image 20260917175741.png",
+    "test/vault/notes/0 + b = b + 0.md",
+    "test/vault/notes/Against subjective probabilities.md",
+    "test/vault/notes/Boards of Canada, écouter les enfants.md",
+    "test/vault/assets/figures/figSinnBedeutung1.png",
+    "test/vault/notes/D'autres rêves.md",
+    "test/vault/notes/La montagne était-elle sublime.md",
+    "test/vault/rooms/métaphysique.md",
     "test/vault/rooms/home.md",
     "test/vault/rooms/histoire.md",
     "test/vault/notes/Can there be conceptual-engineering without a conceptual-engineer Algorithmic governance and algospeak, a case study of unalive.md",
     "test/vault/rooms/philodulangage.md",
-    "test/vault/notes/Boards of Canada, écouter les enfants.md",
-    "test/vault/notes/Trois façons de réfuter l'appel à la nature.md",
     "test/out/vault/assets/figures/The Devil Is In The Details.mp3",
     "test/vault/rooms/esthétique.md",
     "test/vault/assets/figures/The Devil Is In The Details.mp3",
@@ -238,23 +238,15 @@
     "test/out/tags/941b0c",
     "test/vault/assets/rooms/home.png",
     "test/vault/assets/objects/esthétique.png",
-    "test/vault/notes/Des mots qui se ressemblent mais qui n'ont rien à voir.md",
     "test/out/vault/assets/figures/guerrecentans.pdf",
     "test/out/vault/assets/objects/guerre100ans.png",
     "test/out/vault/assets/rooms/histoire.jpg",
     "test/out/vault/assets/objects/boc.gif",
     "test/out/vault/assets/objects/montagne.png",
     "test/out/notes/rooms/histoire/index.html",
-    "test/vault/rooms/métaphysique.md",
     "test/vault/rooms/méthodologie.md",
-    "test/vault/notes/Fanzine informel - La guerre de 100 ans.md",
     "test/vault/assets/rooms/histoire.jpg",
     "test/vault/notes/Fanzine informel - Risky-choice framing and rational decision-making.md",
-    "test/vault/assets/rooms/métaphysique.jpg",
-    "test/vault/assets/rooms/esthétique1.png",
-    "test/vault/notes/Qui suis-je.md",
-    "test/vault/notes/Ce que signifie comprendre.md",
-    "test/vault/notes/Les racines théologiques de la crise environnementale - Lynn White, the historical root of our ecological crisis.md",
-    "test/vault/notes/La montagne était-elle sublime.md"
+    "test/vault/notes/Ce que signifie comprendre.md"
   ]
 }

@@ -61,7 +61,6 @@ Le raisonnement peut être schématisé ainsi: 
 3: Il faut donc réformer ces croyances afin de changer l’écologie humaine
 
 Lynn White propose spécifiquement un nouveau patron, Saint François d’Assise, dont les idées animistes permettraient, si elles se diffusaient largement, à nos sociétés de se penser plus harmonieusement en rapport avec la nature. 
-
 ### Transition :
 Ce qu’avance L.White est discutable à plusieurs niveaux:
 D’une part, sa lecture de l’histoire : l’importance qu’il accorde au christianisme, dans la transformation des sociétés et des représentations est sujette à débat.

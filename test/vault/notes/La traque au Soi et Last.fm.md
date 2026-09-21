@@ -17,10 +17,14 @@ tags:
 
 (En vrai j'ai un compte last fm, source d'accablement et de joie, les gens sont contradictoires parfois, voilà.)
 
-Sources:
+# Sources:
+
 McClusky, M. (2009) The Nike experiment: How the shoe giant unleashed the power of personal metrics. _Wired_.
+
 Lupton, D. (2016) (1) "The meaning and value of personal digital data", chapter 4  ‘You Are Your Data’  Personal Data Meanings, Practices and Materialisations, *The quantified self*. Polity Press. ISBN-13: 978–1–5095–0059–8 
+
  Lupton, D. (2016) (2) "Selfhood and surveillance" chapter 3  ‘An Optimal Human Being’  The Body and the Self in Self-Tracking Cultures, *The quantified self*. Polity Press. ISBN-13: 978–1–5095–0059–8 
+ 
  Le blog de Deborah Lupton: [Simply sociology](https://simplysociology.wordpress.com/2016/01/18/my-new-book-the-quantified-self/)
 
 5 septembre 2026

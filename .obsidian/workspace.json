@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
+                "file": "test/vault/notes/Des mots qui se ressemblent mais qui n'ont rien à voir.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
-              "title": "Verneliba - Sinn, Bedeutung, Extension, Intension"
+              "title": "Des mots qui se ressemblent mais qui n'ont rien à voir"
             }
           }
         ],
@@ -206,14 +206,15 @@
   },
   "active": "9fdf91892943d64c",
   "lastOpenFiles": [
+    "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
+    "test/vault/rooms/esthétique.md",
+    "test/vault/rooms/philocognitive.md",
     "test/vault/notes/Fanzine informel - La guerre de 100 ans.md",
     "test/vault/notes/La traque au Soi et Last.fm.md",
     "test/vault/notes/La montagne était-elle sublime.md",
-    "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
     "Pasted image 20260921171656.png",
     "Pasted image 20260921171445.png",
     "test/vault/rooms/home.md",
-    "test/vault/rooms/philocognitive.md",
     "test/vault/assets/rooms/home.png",
     "test/vault/assets/rooms/histoire.jpg",
     "test/vault/assets/rooms/esthétique1.png",
@@ -242,7 +243,6 @@
     "test/vault/rooms/histoire.md",
     "test/vault/rooms/philodulangage.md",
     "test/out/vault/assets/figures/The Devil Is In The Details.mp3",
-    "test/vault/rooms/esthétique.md",
     "test/vault/assets/figures/081023.mp3",
     "test/out/tags/hi/index.html",
     "test/out/tags/hi",

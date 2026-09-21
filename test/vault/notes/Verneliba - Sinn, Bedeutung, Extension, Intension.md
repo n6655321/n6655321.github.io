@@ -1,5 +1,5 @@
 ---
-title: Sinn, Bedeutung, Extension, Intension
+title: Verneliba - Sinn, Bedeutung, Extension, Intension
 tags:
   - verneliba
 ---

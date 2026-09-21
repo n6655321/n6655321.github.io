@@ -14,8 +14,26 @@ objects:
     y2: 900
     x3: 1316
     y3: 1714
-    x4: 934
-    y4: 1994
+    x4: 984
+    y4: 1663
+    x5: 1039
+    y5: 1634
+    x6: 1039
+    y6: 1799
+    size: relative
+    w: 100
+    h: 100
+  - target: "[[Last.fm]]"
+    label: Tu écoutes quoi?
+    position: absolute
+    x1: 983
+    y1: 1662
+    x2: 1038
+    y2: 1633
+    x3: 1038
+    y3: 1798
+    x4: 972
+    y4: 1845
     size: relative
     w: 100
     h: 100
@@ -110,7 +128,7 @@ objects:
     y5: 1680
     size: relative
     w: 100
-    h: 100  
+    h: 100
   - target: "#histoire"
     label: Histoire
     position: absolute

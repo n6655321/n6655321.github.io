@@ -7,10 +7,10 @@ _Wake up to sleep_ - Sonicbrat : [[https://youtu.be/-__5BEam1pQ?list=RD-__5BEam1
 D'[[https://youtu.be/XrKiEeHxWG4?list=RD-__5BEam1pQ|autres morceaux]] de Sonicbrat disponibles uniquement sur YouTube. 
 
 > _Emma ne dormait pas, elle faisait semblant d'être endormie ; et, tandis qu'il s'assoupissait à ses côtés, elle se réveillait en d'autres rêves._
-_Madame Bovary_, Gustave Flaubert (1856)
+ _Madame Bovary_, Gustave Flaubert (1856)
 
 ## Recontextualisation
-Cette citation est tirée du chapitre douze de Madame Bovary. Au cours de ce chapitre, Emma Bovary projette de quitter sa vie morose auprès de son mari Charles, et de s'expatrier avec son amant, Roldophe, emmenant avec elle sa fille. Au chapitre suivant, Rodolphe trahit sa promesse et abandonne Emma, en proie à la désillusion.  
+Cette citation est issue du chapitre douze de Madame Bovary. Au cours de ce chapitre, Emma Bovary projette de quitter sa vie morose auprès de son mari Charles, et de s'expatrier avec son amant, Roldophe, emmenant avec elle sa fille. Au chapitre suivant, Rodolphe trahit sa promesse et abandonne Emma, en proie à la désillusion.  
 
 ## Lire l'extrait situé - fin du chapitre XII
 "Elle s'appuyait sur son épaule, elle murmurait :

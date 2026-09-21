@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "test/vault/notes/0 Verneliba - Sinn, Bedeutung, Extension, Intension.md",
+                "file": "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "0 Verneliba - Sinn, Bedeutung, Extension, Intension"
+              "title": "Verneliba - Sinn, Bedeutung, Extension, Intension"
             }
           },
           {
@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "test/vault/notes/La traque au Soi et Last.fm.md",
+                "file": "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
-              "title": "La traque au Soi et Last.fm"
+              "title": "Verneliba - Sinn, Bedeutung, Extension, Intension"
             }
           }
         ],
@@ -206,26 +206,27 @@
   },
   "active": "9fdf91892943d64c",
   "lastOpenFiles": [
-    "test/vault/rooms/home.md",
+    "test/vault/notes/Fanzine informel - La guerre de 100 ans.md",
     "test/vault/notes/La traque au Soi et Last.fm.md",
     "test/vault/notes/La montagne était-elle sublime.md",
+    "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
+    "Pasted image 20260921171656.png",
+    "Pasted image 20260921171445.png",
+    "test/vault/rooms/home.md",
     "test/vault/rooms/philocognitive.md",
     "test/vault/assets/rooms/home.png",
     "test/vault/assets/rooms/histoire.jpg",
     "test/vault/assets/rooms/esthétique1.png",
     "test/vault/assets/rooms/biology.png",
     "test/vault/notes/Qui suis-je.md",
-    "test/vault/notes/0 Verneliba - Sinn, Bedeutung, Extension, Intension.md",
     "test/vault/notes/0 Méta-verneliba - 0+b = b+0, Rocq et le spectre de Frege.md",
     "test/vault/notes/0 Le grand saut.md",
     "test/vault/assets/rooms/métaphysique.jpg",
     "test/vault/assets/rooms/méthodologie.png",
     "test/vault/assets/rooms/philocognitive1.png",
     "test/vault/assets/rooms/revuedarticle.jpeg",
-    "test/vault/assets/rooms/philodulangage1.jpeg",
     "test/vault/notes/0 D'autres rêves.md",
     "test/vault/notes/0 Against subjective probabilities.md",
-    "test/vault/assets/figures/n6655321.png",
     "test/vault/notes/Les racines théologiques de la crise environnementale - Lynn White, the historical root of our ecological crisis.md",
     "test/vault/notes/Des mots qui se ressemblent mais qui n'ont rien à voir.md",
     "test/vault/notes/Ce que signifie comprendre.md",
@@ -233,7 +234,6 @@
     "test/vault/notes/Can there be conceptual-engineering without a conceptual-engineer.md",
     "test/vault/notes/Nos intuitions quant à l'innéité - tentations dualiste et essentialiste.md",
     "test/vault/notes/Trois façons de réfuter l'appel à la nature.md",
-    "test/vault/notes/Fanzine informel - La guerre de 100 ans.md",
     "test/vault/notes/Fanzine informel - Risky-choice framing and rational decision-making.md",
     "test/vault/assets/figures/guerrecentans.pdf",
     "test/vault/assets/figures/The Devil Is In The Details.mp3",

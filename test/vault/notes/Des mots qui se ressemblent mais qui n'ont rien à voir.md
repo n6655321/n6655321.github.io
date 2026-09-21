@@ -12,7 +12,7 @@ On peut souvent parler d'une même chose de plusieurs manières. Par exemple, il
 Tous les concepts qui contiennent la tour Eiffel et que j'ai cités plus haut peuvent être envisagés comme des ensembles qui ont cette tour pour unique élément. Si on devait en faire un diagramme de Venn, on serait bien embêté, car ces ensembles se comprennent mutuellement: on se retrouverait avec des cercles exactement superposés sur un plan, et on ne verrait qu'un seul cercle. 
 Y'a-t-il jamais eu plusieurs ensembles, ou n'était-ce, depuis le début, que le même concept? Toutes ces expressions semblent n'avoir été que des façons de parler du même objet : utiliser l'une ou l'autre, cela reviendrait au même. En fait, elles sont extensionnellement équivalentes, mais intensionnellement différentes.
 ## La distinction entre extensionnalité et intensionnalité
-On fait souvent remonter cette distinction à Carnap. Avant lui, [[0 Verneliba - Sinn, Bedeutung, Extension, Intension| on peut]] déjà évoquer Frege, qui distingue le sens (_Sinn_) et la référence (_Bedeutung_).
+On fait souvent remonter cette distinction à Carnap. Avant lui, [[Verneliba - Sinn, Bedeutung, Extension, Intension| on peut]] déjà évoquer Frege, qui distingue le sens (_Sinn_) et la référence (_Bedeutung_).
 
 | Sinn (Sens)                     | Bedeutung (Référence)            | distinction chez Frege     |
 | ------------------------------- | -------------------------------- | -------------------------- |

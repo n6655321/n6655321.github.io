@@ -1,5 +1,5 @@
 ---
-title: Last.fm
+title: La traque au Soi et Last.fm
 tags:
 ---
 ![[lastfm1.png]]

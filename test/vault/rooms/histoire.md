@@ -14,8 +14,8 @@ objects:
     size: relative
     w: 15
     h: 15
-  - target: "[[Boards of Canada, écouter les enfants]]"
-    label: Do
+  - target: "[[D'autres rêves]]"
+    label: D'autres rêves ?
     position: absolute
     x1: 1215
     y1: 1737

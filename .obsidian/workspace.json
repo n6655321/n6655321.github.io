@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
+                "file": "test/vault/rooms/histoire.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "Verneliba - Sinn, Bedeutung, Extension, Intension"
+              "title": "histoire"
             }
           },
           {
@@ -205,10 +205,11 @@
   },
   "active": "9b1e7b6b7b3f2cad",
   "lastOpenFiles": [
+    "test/vault/notes/D'autres rêves.md",
+    "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
     "test/vault/assets/figures/réceptionsfregecarnapgodel.png",
     "test/vault/assets/figures/n6655321.png",
     "test/vault/rooms/philocognitive.md",
-    "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
     "test/vault/notes/Des mots qui se ressemblent mais qui n'ont rien à voir.md",
     "test/vault/rooms/esthétique.md",
     "test/vault/notes/Fanzine informel - La guerre de 100 ans.md",
@@ -226,8 +227,6 @@
     "test/vault/assets/rooms/métaphysique.jpg",
     "test/vault/assets/rooms/méthodologie.png",
     "test/vault/assets/rooms/philocognitive1.png",
-    "test/vault/assets/rooms/revuedarticle.jpeg",
-    "test/vault/notes/0 D'autres rêves.md",
     "test/vault/notes/0 Against subjective probabilities.md",
     "test/vault/notes/Les racines théologiques de la crise environnementale - Lynn White, the historical root of our ecological crisis.md",
     "test/vault/notes/Ce que signifie comprendre.md",

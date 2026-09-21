@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "test/vault/rooms/home.md",
+                "file": "test/vault/notes/Last.fm.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "home"
+              "title": "Last.fm"
             }
           }
         ],
@@ -206,8 +206,9 @@
   },
   "active": "9fdf91892943d64c",
   "lastOpenFiles": [
-    "test/vault/rooms/philocognitive.md",
+    "test/vault/notes/La montagne était-elle sublime.md",
     "test/vault/rooms/home.md",
+    "test/vault/rooms/philocognitive.md",
     "test/vault/notes/Last.fm.md",
     "test/vault/assets/rooms/home.png",
     "test/vault/assets/rooms/histoire.jpg",
@@ -231,7 +232,6 @@
     "test/vault/notes/Boards of Canada, écouter les enfants.md",
     "test/vault/notes/Can there be conceptual-engineering without a conceptual-engineer.md",
     "test/vault/notes/Nos intuitions quant à l'innéité - tentations dualiste et essentialiste.md",
-    "test/vault/notes/La montagne était-elle sublime.md",
     "test/vault/notes/Trois façons de réfuter l'appel à la nature.md",
     "test/vault/notes/Fanzine informel - La guerre de 100 ans.md",
     "test/vault/notes/Fanzine informel - Risky-choice framing and rational decision-making.md",

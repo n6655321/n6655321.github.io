@@ -13,5 +13,7 @@ tags:
 - Mon prénom, mon âge et mon genre sont des données pirates dans le problème de mon identité. Oui, toute pensée est située. Oui, donner des informations serait sûrement mieux pour faciliter l'identification de mes potentiels biais et conflits d'intérêt, mais vous apprendrez à les repérer seuls, débrouillez-vous. J'écris à l'aide de ma petite cervelle de moineau et de mes misérables mains, aucune partie de ce blog n'est rédigé par une IA. 
 - Je suis le x qui None6655321ise et ce que j'écris n'est pas sérieux.
 
+![[n6655321.png|571]]
+
 Restons dérangé?es,
 None6655321.

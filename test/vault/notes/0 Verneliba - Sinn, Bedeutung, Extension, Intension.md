@@ -40,7 +40,7 @@ Frege admet que l'on asserte l'identité de deux propositions sur la base de l'i
 Ailleurs, il écrit: "_That ‘B and A’ have the same Sinn as ‘A and B’ we may see without proof by
 merely being aware of the Sinn. Here we have a case where two linguistically different expressions correspond to the same Sinn._"
 Dans les deux cas, les phrases ont des signes différents mais une _Bedeutung_ identique et un _Sinn_ identique, en tant qu'elles dénotent la même référence et qu'elles expriment la même pensée ou le même contenu conceptuel. Il est donc possible de transformer une phrase, de changer ses signes, tout en préservant simultanément sa *Bedeutung* et son *Sinn*.  Frege mobilise pour cela la notion d'[equipollence](https://en.wikipedia.org/wiki/Equipollence_(geometry)). 
-Directement, on est tenté d'objecter, et de dire qu'il s'agit de manières significativement différentes de se référer à la même chose. Je partage cette intuition: la forme active insiste sur l'agentivité, la forme passive l'occulte (j'en discute[[Can there be conceptual-engineering without a conceptual-engineer Algorithmic governance and algospeak, a case study of unalive| ici]]). On part du principe que changer le signe implique nécessairement de modifier le _Sinn_ ; mais c'est mal comprendre que, pour Frege, le _Sinn_ est une dimension à part entière. Les concepts diffèrent des signes au moyen desquels on se réfère aux choses. Il est, en ce sens, tout platonicien (d'autant plus qu'il accorde une existence objective à ces entités, les *Sinne*). 
+Directement, on est tenté d'objecter, et de dire qu'il s'agit de manières significativement différentes de se référer à la même chose. Je partage cette intuition: la forme active insiste sur l'agentivité, la forme passive l'occulte (j'en discute[[Can there be conceptual-engineering without a conceptual-engineer| ici]]). On part du principe que changer le signe implique nécessairement de modifier le _Sinn_ ; mais c'est mal comprendre que, pour Frege, le _Sinn_ est une dimension à part entière. Les concepts diffèrent des signes au moyen desquels on se réfère aux choses. Il est, en ce sens, tout platonicien (d'autant plus qu'il accorde une existence objective à ces entités, les *Sinne*). 
 
 Je joins une fiche que j'avais faite à partir du chapitre du manuel de B.Leclercq sur Frege.
 ![[le platonisme de Frege.png]]
@@ -80,8 +80,8 @@ I.Hanzel continue à essayer de montrer que ces deux termes ont une intension di
 Il existe des termes qui, chez Frege, n'ont pas les mêmes _Sinne_, et qui ont la même intension chez Carnap. 
 # Gödel en nuance
 En linguistique, la "loi" de répartition (identifiée par Bréal) dit que lorsque deux synonymes émergent, soit l'un des deux termes disparaît, soit leur sens commence à diverger. Gödel, dans son carnet philosophique *Max Phil IX* emploie les deux paires Sinn/Bedeutung et intension/extension, ce qui suggère qu'il leur prête un sens différent. 
-Gödel, contrairement à Carnap, est réaliste. Il l'est quant aux objets mathématiques, mais aussi quant aux concepts - un point qui a posé problème dans la réception de Frege par Carnap. 
-Pour Carnap, les concepts étaient de l'ordre de l'intension - pour Frege, ils étaient extensionnels. 
+Gödel, contrairement à Carnap, est réaliste. Il l'est quant aux objets mathématiques, mais aussi quant aux concepts - un point qui a posé problème dans la réception de Frege par Carnap: pour le premier, ils relevaient de la Bedeutung, tandis que pour le second, ils étaient intensionnels. 
+
 
 
 # Sources :

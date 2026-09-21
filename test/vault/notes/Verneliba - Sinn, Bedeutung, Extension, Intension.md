@@ -91,7 +91,7 @@ Ainsi, la distinction globale (*more coarse-grained*) serait celle de *Sinn*/*Be
 Je n'ai pas la prétention d'expliquer l'article de G. Crocco, mais j'ai fait ce schéma à l'issue de ma lecture. 
 Schéma: réceptions carnapienne (en haut) et gödelienne (en bas) des concepts frégéens de *Sinn* et de *Bedeutung*. 
 
-![[Pasted image 20260921171445.png]]
+![[réceptionsfregecarnapgodel.png]]
 
 La partie "Carnap" est simple (voire simpliste): Carnap identifie Sinn et intension, d'une part, et Bedeutung et extension, d'autre part. Il n'accorde pas d'existence aux concepts - rien, sinon une existence linguistique, sous forme de convention. 
 

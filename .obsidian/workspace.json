@@ -15,7 +15,7 @@
               "state": {
                 "file": "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
               "title": "Verneliba - Sinn, Bedeutung, Extension, Intension"
@@ -35,8 +35,7 @@
               "title": "Des mots qui se ressemblent mais qui n'ont rien à voir"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -204,16 +203,18 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "9fdf91892943d64c",
+  "active": "9b1e7b6b7b3f2cad",
   "lastOpenFiles": [
-    "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
-    "test/vault/rooms/esthétique.md",
+    "test/vault/assets/figures/réceptionsfregecarnapgodel.png",
+    "test/vault/assets/figures/n6655321.png",
     "test/vault/rooms/philocognitive.md",
+    "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
+    "test/vault/notes/Des mots qui se ressemblent mais qui n'ont rien à voir.md",
+    "test/vault/rooms/esthétique.md",
     "test/vault/notes/Fanzine informel - La guerre de 100 ans.md",
     "test/vault/notes/La traque au Soi et Last.fm.md",
     "test/vault/notes/La montagne était-elle sublime.md",
     "Pasted image 20260921171656.png",
-    "Pasted image 20260921171445.png",
     "test/vault/rooms/home.md",
     "test/vault/assets/rooms/home.png",
     "test/vault/assets/rooms/histoire.jpg",
@@ -229,7 +230,6 @@
     "test/vault/notes/0 D'autres rêves.md",
     "test/vault/notes/0 Against subjective probabilities.md",
     "test/vault/notes/Les racines théologiques de la crise environnementale - Lynn White, the historical root of our ecological crisis.md",
-    "test/vault/notes/Des mots qui se ressemblent mais qui n'ont rien à voir.md",
     "test/vault/notes/Ce que signifie comprendre.md",
     "test/vault/notes/Boards of Canada, écouter les enfants.md",
     "test/vault/notes/Can there be conceptual-engineering without a conceptual-engineer.md",

@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "test/vault/rooms/home.md",
+                "file": "test/vault/notes/La traque au Soi et Last.fm.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "home"
+              "title": "La traque au Soi et Last.fm"
             }
           }
         ],
@@ -206,9 +206,9 @@
   },
   "active": "9fdf91892943d64c",
   "lastOpenFiles": [
-    "test/vault/notes/Last.fm.md",
-    "test/vault/notes/La montagne était-elle sublime.md",
     "test/vault/rooms/home.md",
+    "test/vault/notes/La traque au Soi et Last.fm.md",
+    "test/vault/notes/La montagne était-elle sublime.md",
     "test/vault/rooms/philocognitive.md",
     "test/vault/assets/rooms/home.png",
     "test/vault/assets/rooms/histoire.jpg",

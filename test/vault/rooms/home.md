@@ -23,7 +23,7 @@ objects:
     size: relative
     w: 100
     h: 100
-  - target: "[[Last.fm]]"
+  - target: "[[La traque au Soi et Last.fm]]"
     label: Tu écoutes quoi?
     position: absolute
     x1: 983

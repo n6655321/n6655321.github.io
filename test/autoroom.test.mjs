@@ -176,6 +176,50 @@ test("an authored room keeps its coordinates and gains the rest", () => {
   );
 });
 
+test("auto: false keeps only the authored hotspots", () => {
+  const index = indexOf([
+    note("cat.md", ["animal", "mammal"]),
+    note("bird.md", ["animal"]),
+  ]);
+  const authored = {
+    tag: "animal",
+    source: "rooms/animal.md",
+    image: "assets/animal.png",
+    width: 1200,
+    height: 800,
+    auto: false,
+    hotspots: [
+      {
+        target: "#mammal",
+        kind: "tag",
+        asset: "assets/m.png",
+        label: "Mammals",
+        x: 10,
+        y: 20,
+        w: 15,
+        h: 25,
+        order: 0,
+      },
+    ],
+  };
+  const room = generateRoom(index.tags.get("animal"), index, authored);
+
+  assert.equal(room.hotspots.length, 1, "no connection is auto-placed");
+  assert.equal(room.hotspots[0].target, "#mammal");
+  assert.equal(room.auto, false);
+});
+
+test("auto defaults to true when unset on an authored room", () => {
+  const index = indexOf([note("a.md", ["t"]), note("b.md", ["t"])]);
+  const authored = {
+    tag: "t", source: "r.md", image: "bg.png", width: 100, height: 100,
+    hotspots: [],
+  };
+  const room = generateRoom(index.tags.get("t"), index, authored);
+  assert.equal(room.auto, true);
+  assert.equal(room.hotspots.length, 2, "connections are still auto-placed");
+});
+
 test("an authored image suppresses the placeholder ratio", () => {
   const index = indexOf([note("a.md", ["t"])]);
   const authored = {

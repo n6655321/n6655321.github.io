@@ -184,6 +184,7 @@ image, write it into the note, see it land.
 | `objects[].rasterize` | `true` renders the asset with hard pixel edges, for pixel art |
 | `objects[].position` / `.size` | `relative` (default) or `absolute`; overrides the room's choice |
 | `objects[].label` | Caption, shown beside the cursor on hover. Defaults to the target's title |
+| `auto:` | `false` disables the generator for this room: only the `objects:` you listed appear, nothing scattered in from the tag's connections. Default `true` |
 
 Referenced images are copied into `/vault/` in the output, keeping their paths.
 Targets matching no tag or note, and assets that do not exist, are reported as
@@ -209,6 +210,29 @@ Each field falls back on its own:
 `background:` accepts hex, the `rgb()`/`hsl()`/`oklch()` families, and colour
 keywords. It is checked against an allowlist before reaching the page, so a
 colour cannot escape its `style` attribute.
+
+To turn partial authoring off and keep only what you wrote, set
+`auto: false` on the room:
+
+```yaml
+---
+room: biology
+image: assets/rooms/biology.jpg
+auto: false
+objects:
+  - target: "#cell"
+    asset: assets/objects/microscope.png
+    x: 12
+    y: 48
+    w: 18
+    h: 34
+    label: The microscope bench
+---
+```
+
+Nothing the tag connects to is scattered into the room; anything not listed in
+`objects:` simply has no hotspot. This matches how `#home` already behaves
+(see below), applied to any room.
 
 ## The front page
 

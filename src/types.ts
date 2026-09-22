@@ -41,6 +41,8 @@ export interface RoomDefinition {
     background: string | null;
     width: number | null;
     height: number | null;
+    /** false disables the generator: only authored hotspots appear. */
+    auto: boolean;
     hotspots: RoomHotspot[];
 }
 export interface VaultIndex {

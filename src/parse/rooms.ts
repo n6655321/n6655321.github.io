@@ -38,6 +38,24 @@ function flag(value: unknown): boolean {
         return /^(true|yes|on|1)$/i.test(value.trim());
     return value === 1;
 }
+/** Like `flag()`, but an absent or unrecognised value keeps `fallback`. */
+function boolOr(value: unknown, fallback: boolean): boolean {
+    if (value === undefined || value === null)
+        return fallback;
+    if (typeof value === "boolean")
+        return value;
+    if (typeof value === "string") {
+        const trimmed = value.trim();
+        if (/^(true|yes|on|1)$/i.test(trimmed))
+            return true;
+        if (/^(false|no|off|0)$/i.test(trimmed))
+            return false;
+        return fallback;
+    }
+    if (typeof value === "number")
+        return value !== 0;
+    return fallback;
+}
 function pct(value: number): number {
     return Math.min(100, Math.max(0, value));
 }
@@ -193,6 +211,7 @@ export function parseRoomNote(note: Note): RoomDefinition | null {
         background: colour(fm.background) ?? colour(fm.bg) ?? colour(fm.color) ?? null,
         width,
         height,
+        auto: boolOr(fm.auto, true),
         hotspots,
     };
 }

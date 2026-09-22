@@ -150,9 +150,12 @@ export function generateRoom(tag: Tag, index: VaultIndex, authored: RoomDefiniti
         }
         return `raw:${bare}`;
     };
+    const auto = authored?.auto ?? true;
     const bounds: Rect = { x: 4, y: 30, w: 92, h: 62 };
     const placed = new Set(authoredSpots.map((h) => key(h.target)));
-    const pending = connections(tag, index).filter((conn) => !placed.has(key(conn.target)));
+    const pending = auto
+        ? connections(tag, index).filter((conn) => !placed.has(key(conn.target)))
+        : [];
     const fixed = authoredSpots.filter((h) => h.w !== null && h.h !== null);
     const flexible = authoredSpots.filter((h) => h.w === null || h.h === null);
     const budget = bounds.w * bounds.h * 0.28;
@@ -201,6 +204,7 @@ export function generateRoom(tag: Tag, index: VaultIndex, authored: RoomDefiniti
         absoluteWithoutSize: authored?.absoluteWithoutSize ?? false,
         width: authored?.width ?? (authored?.image ? null : PLACEHOLDER_WIDTH),
         height: authored?.height ?? (authored?.image ? null : PLACEHOLDER_HEIGHT),
+        auto,
         hotspots,
     };
 }

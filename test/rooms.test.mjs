@@ -118,6 +118,19 @@ test("tag_page is accepted as an alias for room", () => {
   assert.equal(parseRoomNote(noteWith({ tag_page: "alias" })).tag, "alias");
 });
 
+test("auto defaults to true", () => {
+  assert.equal(parseRoomNote(noteWith({ room: "r" })).auto, true, "on by default");
+  assert.equal(
+    parseRoomNote(noteWith({ room: "r", auto: false })).auto,
+    false,
+  );
+  assert.equal(
+    parseRoomNote(noteWith({ room: "r", auto: "no" })).auto,
+    false,
+    "string falsy values are read",
+  );
+});
+
 test("asset URLs are namespaced and encoded", () => {
   assert.equal(assetHref("", "assets/a b.png"), "/vault/assets/a%20b.png");
   assert.equal(assetHref("/wiki", "./assets/x.png"), "/wiki/vault/assets/x.png");

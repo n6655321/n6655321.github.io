@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "test/vault/rooms/home.md",
+                "file": "test/vault/notes/Qui suis-je.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "home"
+              "title": "Qui suis-je"
             }
           }
         ]
@@ -191,9 +191,11 @@
   },
   "active": "9fdf91892943d64c",
   "lastOpenFiles": [
+    "test/vault/notes/Restons rangé-es.md",
+    "test/vault/notes/Trois façons de réfuter l'appel à la nature.md",
+    "test/vault/rooms/home.md",
     "test/vault/rooms/esthétique.md",
     "test/vault/rooms/histoire.md",
-    "test/vault/rooms/home.md",
     "test/vault/rooms/métaphysique.md",
     "test/vault/rooms/méthodologie.md",
     "test/vault/rooms/philocognitive.md",
@@ -221,7 +223,6 @@
     "test/out/notes/La traque au Soi et Last.fm",
     "test/out/notes/D'autres rêves/index.html",
     "test/vault/notes/Qui suis-je.md",
-    "test/vault/notes/Restons rangé-es.md",
     "test/vault/notes/Fanzine informel - Risky-choice framing and rational decision-making.md",
     "test/vault/notes/Ranger.md",
     "test/vault/notes/D'autres rêves.md",
@@ -235,7 +236,6 @@
     "test/vault/notes/Les racines théologiques de la crise environnementale - Lynn White, the historical root of our ecological crisis.md",
     "test/vault/notes/Ce que signifie comprendre.md",
     "test/vault/notes/Boards of Canada, écouter les enfants.md",
-    "test/vault/notes/Can there be conceptual-engineering without a conceptual-engineer.md",
-    "test/vault/notes/Nos intuitions quant à l'innéité - tentations dualiste et essentialiste.md"
+    "test/vault/notes/Can there be conceptual-engineering without a conceptual-engineer.md"
   ]
 }

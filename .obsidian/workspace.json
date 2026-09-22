@@ -206,7 +206,10 @@
   },
   "active": "9b1e7b6b7b3f2cad",
   "lastOpenFiles": [
+    "test/vault/assets/rooms/revuedarticle.jpeg",
+    "test/vault/assets/rooms/histoire.jpg",
     "test/vault/assets/objects/fanzine.png",
+    "src/assets/system.css",
     "test/vault/rooms/revuedarticle.md",
     "test/vault/assets/rooms/revuedarticle.jpg",
     "test/vault/rooms/histoire.md",
@@ -226,11 +229,9 @@
     "test/vault/rooms/home.md",
     "test/vault/assets/rooms/home.png",
     "test/vault/assets/rooms/esthétique1.png",
-    "test/vault/assets/rooms/biology.png",
     "test/vault/notes/Qui suis-je.md",
     "test/vault/notes/0 Méta-verneliba - 0+b = b+0, Rocq et le spectre de Frege.md",
     "test/vault/notes/0 Le grand saut.md",
-    "test/vault/assets/rooms/métaphysique.jpg",
     "test/vault/notes/0 Against subjective probabilities.md",
     "test/vault/notes/Les racines théologiques de la crise environnementale - Lynn White, the historical root of our ecological crisis.md",
     "test/vault/notes/Ce que signifie comprendre.md",
@@ -250,7 +251,6 @@
     "test/out/tags/hi",
     "test/out/tags/941b0c/index.html",
     "test/out/tags/941b0c",
-    "test/out/vault/assets/figures/guerrecentans.pdf",
-    "test/out/notes/rooms/histoire/index.html"
+    "test/out/vault/assets/figures/guerrecentans.pdf"
   ]
 }

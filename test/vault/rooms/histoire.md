@@ -1,6 +1,6 @@
 ---
 room: histoire
-image: assets/rooms/hist.jpg
+image: assets/rooms/hist.jpeg
 background: "#941b0c"
 width: 3600
 height: 3000

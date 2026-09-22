@@ -6,7 +6,8 @@ export interface ResolvedHotspot {
     href: string;
     label: string;
     asset: string | null;
-    kind: "tag" | "note";
+    kind: "tag" | "note" | "sound";
+    sound?: string | null;
 }
 export function assetHref(base: string, vaultPath: string): string {
     const clean = vaultPath.replace(/^\.?\//, "");
@@ -32,6 +33,18 @@ function cleanTarget(target: string): {
 export function resolveHotspot(hotspot: RoomHotspot, index: VaultIndex, base: string, tagHref: (base: string, tag: Tag) => string, noteHref: (base: string, note: {
     slug: string;
 }) => string): ResolvedHotspot | null {
+    if (hotspot.kind === "sound") {
+        if (!hotspot.sound)
+            return null;
+        return {
+            hotspot,
+            href: "",
+            label: hotspot.label ?? "",
+            asset: hotspot.asset ? assetHref(base, hotspot.asset) : null,
+            kind: "sound",
+            sound: assetHref(base, hotspot.sound),
+        };
+    }
     const { name, alias } = cleanTarget(hotspot.target);
     if (!name)
         return null;
@@ -98,6 +111,11 @@ function renderHotspot(resolved: ResolvedHotspot): string {
     const outline = h.points
         ? ` data-points="${h.points.map((p) => `${round(p.x)},${round(p.y)}`).join(" ")}"`
         : "";
+    if (resolved.kind === "sound" && resolved.sound) {
+        return `<button type="button" class="hotspot hotspot-sound${bare}${shaped}" data-sound="${escapeHtml(resolved.sound)}" style="${style}"${outline}>
+      ${body}<span class="hotspot-label">${escapeHtml(label)}</span>
+    </button>`;
+    }
     return `<a class="hotspot hotspot-${resolved.kind}${bare}${shaped}" href="${escapeHtml(resolved.href)}" style="${style}"${outline}>
       ${body}<span class="hotspot-label">${escapeHtml(label)}</span>
     </a>`;

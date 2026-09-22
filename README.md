@@ -156,6 +156,24 @@ a polygon, written either as numbered pairs (`x1`/`y1`, `x2`/`y2`, and so on) or
 `points:` list. Pointer events respect the clip, so the outline is the click
 target rather than its bounding box.
 
+### Sound cells
+
+An object needs no `target:` at all if it gives a `sound:` instead — it becomes
+a cell that plays the clip on click rather than linking anywhere:
+
+```yaml
+objects:
+  - sound: assets/sounds/bell.mp3
+    x: 40
+    y: 55
+    w: 6
+    h: 10
+    label: Ring the bell
+```
+
+`mp3:` and `audio:` work as aliases for `sound:`. Give it an `asset:` too and it
+gets an image like any other object, just without a link underneath.
+
 ### Authoring aids
 
 Two URL parameters work on any room page:
@@ -175,7 +193,8 @@ image, write it into the note, see it land.
 | `image:` | Vault-relative path to the background |
 | `background:` (or `bg:`, `color:`) | CSS colour behind the image, filling the letterbox around it |
 | `width:` / `height:` | Intrinsic size; sets the aspect ratio so objects do not shift while the image loads |
-| `objects[].target` | `#tag`, `[[Note]]`, or a bare name (tag tried first) |
+| `objects[].target` | `#tag`, `[[Note]]`, or a bare name (tag tried first). Omit it on a sound cell |
+| `objects[].sound` (or `.mp3`, `.audio`) | Vault-relative audio file. The cell plays it on click instead of navigating; no `target:` needed |
 | `objects[].x` / `.y` | Top-left corner. Required, unless the object is a polygon |
 | `objects[].w` / `.h` | Size; omit to let the generator size it |
 | `objects[].x1`/`y1`, `x2`/`y2`, ... | A polygon outline, three points or more |

@@ -133,6 +133,41 @@ test("the front page loads the room script", async () => {
   await cleanup();
 });
 
+test("a sound object renders as a button and its mp3 is copied", async () => {
+  const vault = await fs.mkdtemp(path.join(os.tmpdir(), "tektite-home-"));
+  const out = await fs.mkdtemp(path.join(os.tmpdir(), "tektite-homeout-"));
+  await fs.mkdir(path.join(vault, "assets"), { recursive: true });
+  await fs.writeFile(path.join(vault, "assets", "bg.png"), PNG);
+  await fs.writeFile(path.join(vault, "assets", "bell.mp3"), Buffer.from([0, 1, 2, 3]));
+  const note = [
+    "---", "room: home", "image: assets/bg.png", "width: 100", "height: 50",
+    "objects:",
+    '  - sound: "assets/bell.mp3"', "    x: 10", "    y: 20", "    w: 8", "    h: 8",
+    "    label: Ring the bell",
+    "---", "",
+  ].join("\n");
+  await fs.writeFile(path.join(vault, "home.md"), note, "utf8");
+  const result = await build({
+    vault, out, title: "The Site", base: "",
+    ignoreTags: [], ignorePaths: [], breakpoint: 768,
+  });
+  const html = await fs.readFile(path.join(out, "index.html"), "utf8");
+
+  assert.match(
+    html,
+    /<button type="button" class="hotspot hotspot-sound[^"]*" data-sound="\/vault\/assets\/bell\.mp3"/,
+    "the sound cell renders as a button, not a link",
+  );
+  assert.doesNotMatch(html, /<a[^>]*hotspot-sound/, "it never becomes a navigating link");
+
+  const copied = await fs.stat(path.join(out, "vault", "assets", "bell.mp3")).then(() => true, () => false);
+  assert.ok(copied, "the mp3 is copied alongside the other room assets");
+  assert.deepEqual(result.unresolved, [], "a sound cell needs no target to resolve");
+
+  await fs.rm(vault, { recursive: true, force: true });
+  await fs.rm(out, { recursive: true, force: true });
+});
+
 test("the fullscreen rule is not tied to one page type", async () => {
   // The rule used to select `.tag-page:has(.room-stage)`, so the front page —
   // an `.index-page` — kept its article padding and showed a margin around the

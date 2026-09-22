@@ -153,4 +153,25 @@
     });
     stage.addEventListener("pointerleave", hideAll);
     window.addEventListener("blur", hideAll);
+    var sounds = {};
+    function playSound(src) {
+        var audio = sounds[src];
+        if (!audio) {
+            audio = new Audio(src);
+            sounds[src] = audio;
+        }
+        try {
+            audio.currentTime = 0;
+        }
+        catch (e) { }
+        audio.play();
+    }
+    stage.addEventListener("click", function (event) {
+        var button = event.target.closest(".hotspot-sound");
+        if (!button)
+            return;
+        var src = button.getAttribute("data-sound");
+        if (src)
+            playSound(src);
+    });
 })();

@@ -120,9 +120,11 @@ function parseHotspot(raw: unknown, index: number, units: Units): RoomHotspot | 
     if (!raw || typeof raw !== "object" || Array.isArray(raw))
         return null;
     const entry = raw as Record<string, unknown>;
-    const target = str(entry.target) ?? str(entry.tag) ?? str(entry.note) ?? str(entry.link);
+    const sound = str(entry.sound) ?? str(entry.mp3) ?? str(entry.audio);
+    const target = str(entry.target) ?? str(entry.tag) ?? str(entry.note) ?? str(entry.link) ?? sound;
     if (!target)
         return null;
+    const kind = sound ? "sound" : hotspotKind(entry, target);
     const scalable = Boolean(units.width && units.height);
     const absPos = entry.position === undefined ? units.absolutePosition : isAbsolute(entry.position);
     const absSize = entry.size === undefined ? units.absoluteSize : isAbsolute(entry.size);
@@ -140,10 +142,11 @@ function parseHotspot(raw: unknown, index: number, units: Units): RoomHotspot | 
         const minY = Math.min(...ys);
         return {
             target,
-            kind: hotspotKind(entry, target),
+            kind,
             asset: str(entry.asset) ?? str(entry.image) ?? null,
             rasterize: flag(entry.rasterize ?? entry.pixelated),
             label: str(entry.label),
+            sound,
             x: minX,
             y: minY,
             w: Math.max(...xs) - minX,
@@ -160,10 +163,11 @@ function parseHotspot(raw: unknown, index: number, units: Units): RoomHotspot | 
     const h = num(entry.h) ?? num(entry.height);
     return {
         target,
-        kind: hotspotKind(entry, target),
+        kind,
         asset: str(entry.asset) ?? str(entry.image) ?? null,
         rasterize: flag(entry.rasterize ?? entry.pixelated),
         label: str(entry.label),
+        sound,
         x: pct(toX(x, absPos)),
         y: pct(toY(y, absPos)),
         w: w === null ? null : pct(Math.max(0, toX(w, absSize))),

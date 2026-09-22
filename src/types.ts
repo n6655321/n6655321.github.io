@@ -19,10 +19,12 @@ export interface Tag {
 }
 export interface RoomHotspot {
     target: string;
-    kind: "tag" | "note" | "auto";
+    kind: "tag" | "note" | "auto" | "sound";
     asset: string | null;
     rasterize: boolean;
     label: string | null;
+    /** Vault-relative audio file; when set the hotspot plays it instead of navigating. */
+    sound: string | null;
     x: number;
     y: number;
     w: number | null;

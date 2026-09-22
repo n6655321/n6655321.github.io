@@ -44,6 +44,7 @@ test("room note yields tag, image and hotspots", () => {
       asset: "a.png",
       rasterize: false,
       label: "Bench",
+      sound: null,
       x: 10,
       y: 20,
       w: 5,
@@ -52,6 +53,49 @@ test("room note yields tag, image and hotspots", () => {
       order: undefined,
     },
   );
+});
+
+test("a sound cell needs no target, tag or note", () => {
+  const room = parseRoomNote(
+    noteWith({
+      room: "r",
+      objects: [
+        { sound: "assets/sounds/bell.mp3", x: 10, y: 20, w: 8, h: 8, label: "Ring the bell" },
+      ],
+    }),
+  );
+  assert.equal(room.hotspots.length, 1);
+  const spot = room.hotspots[0];
+  assert.equal(spot.kind, "sound");
+  assert.equal(spot.sound, "assets/sounds/bell.mp3");
+  assert.equal(spot.target, "assets/sounds/bell.mp3", "the sound path stands in for a target");
+  assert.equal(spot.label, "Ring the bell");
+});
+
+test("mp3 and audio are accepted as aliases for sound", () => {
+  const byMp3 = parseRoomNote(
+    noteWith({ room: "r", objects: [{ mp3: "a.mp3", x: 1, y: 1 }] }),
+  ).hotspots[0];
+  const byAudio = parseRoomNote(
+    noteWith({ room: "r", objects: [{ audio: "a.mp3", x: 1, y: 1 }] }),
+  ).hotspots[0];
+  assert.equal(byMp3.kind, "sound");
+  assert.equal(byMp3.sound, "a.mp3");
+  assert.equal(byAudio.kind, "sound");
+  assert.equal(byAudio.sound, "a.mp3");
+});
+
+test("a sound cell with an explicit target keeps navigating semantics off", () => {
+  // sound wins over target/tag/note: a hotspot either navigates or plays a
+  // sound, never both, and the explicit target is kept only for identity.
+  const room = parseRoomNote(
+    noteWith({
+      room: "r",
+      objects: [{ target: "#cell", sound: "a.mp3", x: 1, y: 1 }],
+    }),
+  );
+  assert.equal(room.hotspots[0].kind, "sound");
+  assert.equal(room.hotspots[0].target, "#cell");
 });
 
 test("hotspot kind is inferred from the target syntax", () => {

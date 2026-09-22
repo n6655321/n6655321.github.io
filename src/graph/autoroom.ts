@@ -187,6 +187,7 @@ export function generateRoom(tag: Tag, index: VaultIndex, authored: RoomDefiniti
             asset: null,
             rasterize: false,
             label: conn.label,
+            sound: null,
             x: round(rect.x),
             y: round(rect.y),
             w: round(rect.w),

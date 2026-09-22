@@ -220,6 +220,34 @@ test("auto defaults to true when unset on an authored room", () => {
   assert.equal(room.hotspots.length, 2, "connections are still auto-placed");
 });
 
+test("a sound hotspot is kept as-is and does not collide with generated ones", () => {
+  const index = indexOf([
+    note("cat.md", ["animal", "mammal"]),
+    note("bird.md", ["animal"]),
+  ]);
+  const authored = {
+    tag: "animal", source: "r.md", image: "bg.png", width: 800, height: 600,
+    hotspots: [
+      { target: "roar.mp3", kind: "sound", asset: null, rasterize: false,
+        label: "Roar", sound: "assets/roar.mp3", x: 5, y: 5, w: 10, h: 10,
+        points: null, order: 0 },
+    ],
+  };
+  const room = generateRoom(index.tags.get("animal"), index, authored);
+
+  const soundSpot = room.hotspots.find((h) => h.kind === "sound");
+  assert.ok(soundSpot, "the sound hotspot survives generation");
+  assert.deepEqual(
+    { x: soundSpot.x, y: soundSpot.y, w: soundSpot.w, h: soundSpot.h },
+    { x: 5, y: 5, w: 10, h: 10 },
+  );
+  assert.equal(soundSpot.sound, "assets/roar.mp3");
+
+  // The tag's real connections are unaffected by the unrelated sound target.
+  assert.ok(room.hotspots.some((h) => h.target === "#mammal"));
+  assert.ok(room.hotspots.some((h) => h.target === "[[bird]]"));
+});
+
 test("an authored image suppresses the placeholder ratio", () => {
   const index = indexOf([note("a.md", ["t"])]);
   const authored = {

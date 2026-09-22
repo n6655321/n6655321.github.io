@@ -35,6 +35,8 @@ export async function indexVault(options: BuildOptions): Promise<VaultIndex> {
         for (const hotspot of room.hotspots) {
             if (hotspot.asset)
                 index.assets.add(hotspot.asset.replace(/^\.?\//, ""));
+            if (hotspot.sound)
+                index.assets.add(hotspot.sound.replace(/^\.?\//, ""));
         }
     }
     return index;

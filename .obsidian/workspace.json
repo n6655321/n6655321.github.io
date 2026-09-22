@@ -97,8 +97,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 381.5
   },
   "right": {
     "id": "7c1a6aacacebc89b",
@@ -206,12 +205,12 @@
   },
   "active": "9b1e7b6b7b3f2cad",
   "lastOpenFiles": [
+    "test/vault/assets/rooms/revuedarticle.jpg",
+    "test/vault/rooms/revuedarticle.md",
     "test/vault/assets/rooms/revuedarticle.jpeg",
     "test/vault/assets/rooms/histoire.jpg",
     "test/vault/assets/objects/fanzine.png",
     "src/assets/system.css",
-    "test/vault/rooms/revuedarticle.md",
-    "test/vault/assets/rooms/revuedarticle.jpg",
     "test/vault/rooms/histoire.md",
     "test/vault/assets/rooms/hist.jpeg",
     "test/vault/notes/D'autres rêves.md",
@@ -228,7 +227,6 @@
     "Pasted image 20260921171656.png",
     "test/vault/rooms/home.md",
     "test/vault/assets/rooms/home.png",
-    "test/vault/assets/rooms/esthétique1.png",
     "test/vault/notes/Qui suis-je.md",
     "test/vault/notes/0 Méta-verneliba - 0+b = b+0, Rocq et le spectre de Frege.md",
     "test/vault/notes/0 Le grand saut.md",

@@ -14,7 +14,7 @@ objects:
     size: relative
     w: 20
     h: 20
-- target: "[[Fanzine informel - Risky-choice framing and rational decision-making]]"
+  - target: "[[Fanzine informel - Risky-choice framing and rational decision-making]]"
     label: Fanzine - Risky-choice framing and rational decision-making
     position: absolute
     x1: 1215
@@ -34,14 +34,14 @@ objects:
     position: absolute
     x1: 1380
     y1: 1744
-    x2:1460
-    y2:1740
-    x3:1376
+     x2:1460
+     y2:1740
+     x3:1376
     y3: 2170
     x4: 1410
     y4: 2180
     x5: 1356
-    y5:2478
+     y5:2478
     x6: 1192
     y6: 2468
     x7: 1252

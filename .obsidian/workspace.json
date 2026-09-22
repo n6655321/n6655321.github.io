@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "test/vault/rooms/histoire.md",
-                "mode": "source",
+                "file": "test/vault/notes/D'autres rêves.md",
+                "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "histoire"
+              "title": "D'autres rêves"
             }
           },
           {
@@ -205,10 +205,10 @@
   },
   "active": "9b1e7b6b7b3f2cad",
   "lastOpenFiles": [
+    "test/vault/rooms/histoire.md",
     "test/vault/notes/D'autres rêves.md",
     "test/vault/assets/objects/conceptualengineer.svg",
     "test/vault/assets/figures/n6655321.png",
-    "test/vault/rooms/histoire.md",
     "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
     "test/vault/assets/figures/réceptionsfregecarnapgodel.png",
     "test/vault/rooms/philocognitive.md",

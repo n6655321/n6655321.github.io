@@ -3,8 +3,8 @@ title: D'autres rêves
 tags:
 ---
 
-_Wake up to sleep_ - Sonicbrat : [[https://youtu.be/-__5BEam1pQ?list=RD-__5BEam1pQ|YouTube]], [[https://open.spotify.com/intl-fr/track/6NaEOG5NByrFEf04shAKTK?si=e6455252097949d6|Spotify]].
-D'[[https://youtu.be/XrKiEeHxWG4?list=RD-__5BEam1pQ|autres morceaux]] de Sonicbrat disponibles uniquement sur YouTube. 
+_Wake up to sleep_ - Sonicbrat : [YouTube](https://youtu.be/-__5BEam1pQ?list=RD-__5BEam1pQ), [Spotify](https://open.spotify.com/intl-fr/track/6NaEOG5NByrFEf04shAKTK?si=e6455252097949d6).
+D'[autres morceaux](https://youtu.be/XrKiEeHxWG4?list=RD-__5BEam1pQ) de Sonicbrat disponibles uniquement sur YouTube. 
 
 > _Emma ne dormait pas, elle faisait semblant d'être endormie ; et, tandis qu'il s'assoupissait à ses côtés, elle se réveillait en d'autres rêves._
  _Madame Bovary_, Gustave Flaubert (1856)

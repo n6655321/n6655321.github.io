@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "test/vault/rooms/esthétique.md",
+                "file": "test/vault/rooms/home.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "esthétique"
+              "title": "home"
             }
           }
         ]
@@ -191,6 +191,7 @@
   },
   "active": "9fdf91892943d64c",
   "lastOpenFiles": [
+    "test/vault/rooms/esthétique.md",
     "test/vault/rooms/histoire.md",
     "test/vault/rooms/home.md",
     "test/vault/rooms/métaphysique.md",
@@ -225,7 +226,6 @@
     "test/vault/notes/Ranger.md",
     "test/vault/notes/D'autres rêves.md",
     "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
-    "test/vault/rooms/esthétique.md",
     "test/vault/notes/Fanzine informel - La guerre de 100 ans.md",
     "test/vault/notes/La traque au Soi et Last.fm.md",
     "test/vault/notes/La montagne était-elle sublime.md",

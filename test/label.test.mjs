@@ -14,7 +14,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const css = await fs.readFile(path.join(here, "..", "src", "assets", "theme.css"), "utf8");
+const css = await fs.readFile(path.join(here, "..", "src", "assets", "system.css"), "utf8");
 const js = await fs.readFile(path.join(here, "..", "src", "assets", "room.js"), "utf8");
 
 /** The declarations inside one CSS rule. */

@@ -433,7 +433,7 @@ test("the breakpoint stylesheet reflects the configured width", async () => {
 test("the only shipped script is the room label helper", async () => {
   const { out } = await buildTemp();
   const assets = await fs.readdir(path.join(out, "assets"));
-  assert.deepEqual(assets.sort(), ["breakpoint.css", "placeholder.svg", "room.js", "theme.css"]);
+  assert.deepEqual(assets.sort(), ["breakpoint.css", "placeholder.svg", "room.js", "system.css", "theme.css"]);
   await fs.rm(out, { recursive: true, force: true });
 });
 

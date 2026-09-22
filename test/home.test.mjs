@@ -173,7 +173,7 @@ test("the fullscreen rule is not tied to one page type", async () => {
   // an `.index-page` — kept its article padding and showed a margin around the
   // room. Any article holding a stage must go fullscreen.
   const here = path.dirname(fileURLToPath(import.meta.url));
-  const css = await fs.readFile(path.join(here, "..", "src", "assets", "theme.css"), "utf8");
+  const css = await fs.readFile(path.join(here, "..", "src", "assets", "system.css"), "utf8");
   const rule = /(^|\n)([^\n{]*):has\(\.room-stage\)\s*\{([^}]*)\}/.exec(css);
   assert.ok(rule, "a fullscreen rule exists");
   assert.doesNotMatch(rule[2], /\.tag-page|\.index-page/,

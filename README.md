@@ -354,10 +354,21 @@ fenced and inline code, indented code blocks, and URL fragments such as
 
 ## Theming
 
-`src/assets/theme.css` holds the palette as custom properties on `:root`, with a
-`prefers-color-scheme: dark` block redefining the same tokens. Restyling means
-editing that block. The room/list breakpoint is in a generated `breakpoint.css`,
-since it changes per build.
+The stylesheet is split in two, so a restyle never has to touch how the room
+engine works:
+
+- `src/assets/theme.css` is the one to edit. It holds the palette as custom
+  properties on `:root`, with a `prefers-color-scheme: dark` block redefining
+  the same tokens, plus everything about how text and content are laid out —
+  headings, panels, lists, prose. Restyling colours means editing the `:root`
+  block; restyling text placement means editing the rest of this file.
+- `src/assets/system.css` positions the room stage and its hotspots, plus a
+  few baseline resets and accessibility contracts. It reads colours and fonts
+  through `var(...)` from theme.css's tokens, so it does not need editing for
+  a restyle — only for a change to how the room/hotspot engine itself behaves.
+
+The room/list breakpoint is in a generated `breakpoint.css`, since it changes
+per build.
 
 ## Tests
 
@@ -380,7 +391,7 @@ src/
   parse/      vault walking, frontmatter, tag extraction, room definitions
   graph/      the containment poset, room generation
   render/     room stage, HTML templates
-  assets/     theme.css, room.js and the placeholder, copied into the output
+  assets/     theme.css, system.css, room.js and the placeholder, copied into the output
   build.ts    the pipeline
   cli.ts      argument parsing
   watch.ts    rebuild-on-change

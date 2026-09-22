@@ -1,0 +1,211 @@
+/*
+ * System stylesheet: the mechanics that make the room/hotspot engine and the
+ * page work, not how they look. Positioning, resets, responsive fallback and
+ * accessibility contracts live here. Colours and fonts still come from the
+ * custom properties defined in theme.css — this file only ever reads them
+ * through var(...), so retheming never means touching this file.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+img {
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* The base `article` padding this clears to 0 is set in theme.css. */
+article:has(.room-stage) {
+  padding: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.room-stage {
+  position: relative;
+  flex: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 0;
+  background: var(--surface-sunken);
+  overflow: hidden;
+}
+
+.room-frame {
+  position: relative;
+  aspect-ratio: var(--room-ratio, 16 / 9);
+
+  max-width: 100%;
+  max-height: 100%;
+  width: min(100%, calc(100dvh * var(--room-ratio-n, 1.7778)));
+  line-height: 0;
+}
+
+.room-bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.room-objects {
+  position: absolute;
+  inset: 0;
+}
+
+.hotspot {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  text-decoration: none;
+  line-height: 1.3;
+}
+
+.hotspot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+  pointer-events: none;
+}
+
+
+.hotspot img.pixelated {
+  image-rendering: pixelated;
+
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+
+.hotspot-bare {
+  background: transparent;
+}
+
+
+.hotspot-poly {
+  overflow: visible;
+}
+
+
+.hotspot-sound {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+
+
+.room-hitboxes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.room-hitboxes rect,
+.room-hitboxes polygon {
+  fill: color-mix(in srgb, var(--focus) 12%, transparent);
+  stroke: var(--focus);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+
+
+.hotspot-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  padding: 0.15rem 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 90ms ease;
+  pointer-events: none;
+}
+
+.hotspot:hover .hotspot-label,
+.hotspot:focus-visible .hotspot-label {
+  opacity: 1;
+}
+
+
+.hotspot:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+
+.room-cursor-label {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+  z-index: 3;
+  padding: 0.15rem 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+
+  transition: opacity 90ms ease;
+  will-change: transform;
+}
+
+.room-cursor-label[data-visible="1"] {
+  opacity: 1;
+}
+
+
+.room-position {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+
+.room-stage[data-cursor-labels="1"] .hotspot:hover .hotspot-label {
+  opacity: 0;
+}
+
+/* The room/list responsive fallback: breakpoint.css (generated per build)
+   flips these two around .room-stage's own display:none at the breakpoint. */
+.panels-fallback {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

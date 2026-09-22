@@ -121,7 +121,7 @@ export interface TagPageResult {
     html: string;
     unresolved: string[];
 }
-export function renderTagPage(tag: Tag, index: VaultIndex, base: string, siteTitle: string): TagPageResult {
+export function renderTagPage(tag: Tag, index: VaultIndex, base: string): TagPageResult {
     const room = index.rooms.get(tag.name);
     const stage = renderRoomStage(room, index, base, tagHref, noteHref);
     const claimed = new Set<string>();
@@ -197,7 +197,6 @@ export function renderTagPage(tag: Tag, index: VaultIndex, base: string, siteTit
     return {
         html: shell({
             title: `#${tag.name}`,
-            siteTitle,
             base,
             room: Boolean(stage.html),
             body,
@@ -211,7 +210,7 @@ export interface NotePageResult {
     used: string[];
 }
 
-export function renderNotePage(note: Note, index: VaultIndex, base: string, siteTitle: string): NotePageResult {
+export function renderNotePage(note: Note, index: VaultIndex, base: string): NotePageResult {
     const used = new Set<string>();
     const tags = note.tags
         .map((name) => index.tags.get(name))
@@ -231,7 +230,6 @@ export function renderNotePage(note: Note, index: VaultIndex, base: string, site
     return {
         html: shell({
             title: note.title,
-            siteTitle,
             base,
             description: note.excerpt,
             body,
@@ -239,7 +237,7 @@ export function renderNotePage(note: Note, index: VaultIndex, base: string, site
         used: [...used],
     };
 }
-export function renderTagIndex(index: VaultIndex, base: string, siteTitle: string): string {
+export function renderTagIndex(index: VaultIndex, base: string): string {
     const tags = [...index.tags.values()].sort((a, b) => b.notes.length - a.notes.length || a.name.localeCompare(b.name));
     const roots = tags.filter((t) => t.parents.length === 0);
     const card = (t: Tag) => {
@@ -271,7 +269,6 @@ export function renderTagIndex(index: VaultIndex, base: string, siteTitle: strin
 </article>`;
     return shell({
         title: "Concepts",
-        siteTitle,
         base,
         description: `Index of ${plural(tags.length, "concept")}.`,
         body,

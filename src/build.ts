@@ -135,7 +135,7 @@ function renderHome(index: VaultIndex, base: string, siteTitle: string): {
 </article>`;
 
     return {
-        html: shell({ title: "Home", siteTitle, base, room: Boolean(stage.html), body }),
+        html: shell({ title: "Home", base, room: Boolean(stage.html), body }),
         unresolved: stage.unresolved,
     };
 }
@@ -175,10 +175,10 @@ export async function build(options: BuildOptions): Promise<BuildResult> {
     await writePage(out, "index.html", home.html);
     for (const target of home.unresolved) unresolved.push(`#${HOME_TAG} -> ${target}`);
     pages++;
-    await writePage(out, path.join("tags", "index.html"), renderTagIndex(index, base, title));
+    await writePage(out, path.join("tags", "index.html"), renderTagIndex(index, base));
     pages++;
     for (const tag of index.tags.values()) {
-        const result = renderTagPage(tag, index, base, title);
+        const result = renderTagPage(tag, index, base);
         await writePage(out, path.join("tags", tag.slug, "index.html"), result.html);
         for (const target of result.unresolved)
             unresolved.push(`#${tag.name} -> ${target}`);
@@ -199,7 +199,7 @@ export async function build(options: BuildOptions): Promise<BuildResult> {
         }
     }
     for (const note of index.notes.values()) {
-        const page = renderNotePage(note, index, base, title);
+        const page = renderNotePage(note, index, base);
         await writePage(out, path.join(...noteOutputPath(note.slug), "index.html"), page.html);
         // Attachments a note embeds or links are copied like a room's images.
         for (const file of page.used) index.assets.add(file);

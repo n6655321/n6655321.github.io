@@ -12,7 +12,7 @@ Usage:
 
 Options:
   -o, --out <dir>        Output directory            (default: ./site)
-  -t, --title <text>     Site title                  (default: vault folder name)
+  -t, --title <text>     Site name, on the front page (default: vault folder name)
   -b, --base <path>      Base path when hosted in a subdirectory (default: "")
       --ignore-tag <t>   Exclude a tag; repeatable
       --ignore-path <p>  Skip a vault-relative path; repeatable

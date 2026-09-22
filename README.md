@@ -62,7 +62,7 @@ node dist/cli.js build /path/to/vault --base /wiki
 | Option | Meaning |
 | --- | --- |
 | `-o, --out <dir>` | Output directory (default `./site`) |
-| `-t, --title <text>` | Site title (default: the vault folder name) |
+| `-t, --title <text>` | Site name, shown as the front page's heading (default: the vault folder name). Individual page `<title>`s are just that page's own name |
 | `-b, --base <path>` | Base path when hosted in a subdirectory |
 | `--ignore-tag <tag>` | Exclude a tag entirely; repeatable |
 | `--ignore-path <path>` | Skip a vault-relative path; repeatable |

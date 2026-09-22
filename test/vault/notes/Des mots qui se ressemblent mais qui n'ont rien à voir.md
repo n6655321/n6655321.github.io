@@ -86,7 +86,7 @@ La généralisation existentielle permet de mettre à jour ce paradoxe. Le table
 
 Une entité ne peut pas simultanément être le x de (1') et celui de (2'), car cela impliquerait d'être et de ne pas être par nécessité le successeur de 8. C'est un problème soulevé par Quine en 1947, dans "_The problem of interpreting modal logic_", et que Ballarin résume ainsi dans son article : "_only one of “F a” and “F b” is analytically true despite the co-referentiality of “a” and “b”_". 
 On semblerait dès lors avoir deux 9: l'un qui est par nécessité le successeur de 8, l'autre qui ne l'est pas. Cette multiplication ontologique (d'objets ou de concepts individuels) est un peu dérangeante et amène Quine à rejeter la logique modale (car il ne veut pas renoncer au point de vue extensionnaliste).
-(Je vous recommande la lecture de l'article pour une explication vraiment en profondeur des paradoxes qui émergent suite à l'introduction de quantificateurs existentiels en logique modale (Ballarin, R (2012))
+(Je vous recommande la lecture de l'article pour une explication vraiment en profondeur des paradoxes qui émergent suite à l'introduction de quantificateurs existentiels en logique modale (Ballarin, R (2012)).
 ## Formaliser l'intensionnalité
 On a donc vu que l'intensionnalité semble simultanément être quelque chose de vague, d'un peu fantasque (car, peu importe la façon dont on décrit une chose: il s'agit de la même chose, et c'est cela qui compte, intuitivement). En même temps, il semble qu'elle est profondément liée au concept de signification, et qu'on ne peut pas s'en passer dans un certain nombre de contextes. Comment faire droit à l'intensionnalité? 
 ### Retrouver l'intensionnalité en terme extensionnels par les langages modaux

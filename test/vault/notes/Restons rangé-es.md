@@ -9,19 +9,21 @@ Ce que j'aime:
 Le croupi:
 [[Les racines théologiques de la crise environnementale - Lynn White, the historical root of our ecological crisis]]
 [[Des mots qui se ressemblent mais qui n'ont rien à voir]]
-[[Fanzine informel - La guerre de 100 ans]]
 [[Boards of Canada, écouter les enfants]]
 [[Can there be conceptual-engineering without a conceptual-engineer]]
 [[La montagne était-elle sublime]]
 [[Trois façons de réfuter l'appel à la nature]]
 [[Ce que signifie comprendre]]
 [[Nos intuitions quant à l'innéité - tentations dualiste et essentialiste]]
-[[Fanzine informel - Risky-choice framing and rational decision-making]]
 
 Rapide à lire / autre:
 [[Qui suis-je]]
 [[La traque au Soi et Last.fm]]
 [[D'autres rêves]]
+
+Les fanzines:
+[[Fanzine informel - Risky-choice framing and rational decision-making]]
+[[Fanzine informel - La guerre de 100 ans]]
 
 Pour éprouver un paradoxe intensionnel et car cette liste EST exhaustive:
 [[Restons rangé-es]]

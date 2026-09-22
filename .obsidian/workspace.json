@@ -50,7 +50,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -218,10 +218,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "83a850332824e493",
+  "active": "9fdf91892943d64c",
   "lastOpenFiles": [
     "test/vault/notes/Qui suis-je.md",
     "test/vault/notes/Restons rangé-es.md",
+    "test/vault/notes/Fanzine informel - Risky-choice framing and rational decision-making.md",
     "test/vault/notes/Ranger.md",
     "src/assets/placeholder.svg",
     "test/vault/rooms/revuedarticle.md",
@@ -254,7 +255,6 @@
     "test/vault/notes/Can there be conceptual-engineering without a conceptual-engineer.md",
     "test/vault/notes/Nos intuitions quant à l'innéité - tentations dualiste et essentialiste.md",
     "test/vault/notes/Trois façons de réfuter l'appel à la nature.md",
-    "test/vault/notes/Fanzine informel - Risky-choice framing and rational decision-making.md",
     "test/vault/assets/figures/guerrecentans.pdf",
     "test/vault/assets/figures/The Devil Is In The Details.mp3",
     "test/vault/notes/0 + b = b + 0.md",

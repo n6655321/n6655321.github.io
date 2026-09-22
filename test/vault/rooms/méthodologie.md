@@ -4,6 +4,7 @@ image: assets/rooms/méthodologie.png
 background: "#124559"
 width: 3600
 height: 3000
+auto: false
 objects:
   - target: "[[Trois façons de réfuter l'appel à la nature]]"
     label: Trois façons de réfuter l'appel à la nature

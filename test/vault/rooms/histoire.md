@@ -4,6 +4,7 @@ image: assets/rooms/hist.jpeg
 background: "#941b0c"
 width: 3600
 height: 3000
+auto: false
 objects:
   - target: "[[Fanzine informel - La guerre de 100 ans]]"
     label: Fanzine informel - La guerre de 100 ans

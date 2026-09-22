@@ -4,6 +4,7 @@ image: assets/rooms/philodulangage1.jpeg
 background: "#ffc300"
 width: 3600
 height: 3000
+auto: false
 objects:
   - target: "[[Can there be conceptual-engineering without a conceptual-engineer]]"
     label: Can there be conceptual-engineering without a conceptual-engineer ? Algorithmic governance and algospeak, a case study of unalive

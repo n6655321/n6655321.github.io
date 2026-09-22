@@ -4,6 +4,7 @@ image: assets/rooms/métaphysique.jpg
 background: "#941b0c"
 width: 3600
 height: 3000
+auto: false
 objects:
   - target: "[[Les racines théologiques de la crise environnementale - Lynn White, the historical root of our ecological crisis]]"
     label: Les racines théologiques de la crise environnementale

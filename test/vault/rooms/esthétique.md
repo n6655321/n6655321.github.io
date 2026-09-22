@@ -4,6 +4,7 @@ image: assets/rooms/esthétique1.png
 background: "#e36414"
 width: 3600
 height: 3000
+auto: false
 objects:
   - target: "[[La montagne était-elle sublime]]"
     label: La montagne était-elle sublime ?

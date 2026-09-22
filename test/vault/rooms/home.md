@@ -4,6 +4,7 @@ image: assets/rooms/home.png
 background: "#001427"
 width: 3600
 height: 3000
+auto: false
 objects:
   - target: "#esthétique"
     label: Esthétique

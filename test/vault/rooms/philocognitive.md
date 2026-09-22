@@ -4,6 +4,7 @@ image: assets/rooms/philocognitive1.png
 background: "#003566"
 width: 3600
 height: 3000
+auto: false
 objects:
   - target: "[[Fanzine informel - Risky-choice framing and rational decision-making]]"
     label: Fanzine informel - Risky-choice framing and rational decision-making

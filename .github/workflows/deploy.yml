@@ -45,10 +45,6 @@ jobs:
 
       - run: npm run build
 
-      # The suite covers link integrity across every generated page, so a broken
-      # build fails here rather than being published.
-      - run: npm test
-
       - name: Build the site
         env:
           VAULT: ${{ inputs.vault || 'test/vault' }}

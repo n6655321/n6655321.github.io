@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "test/vault/notes/Qui suis-je.md",
+                "file": "test/vault/notes/Nos intuitions quant à l'innéité - tentations dualiste et essentialiste.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
-              "title": "Qui suis-je"
+              "title": "Nos intuitions quant à l'innéité - tentations dualiste et essentialiste"
             }
           }
         ]
@@ -83,7 +83,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 468.5
   },
   "right": {
     "id": "7c1a6aacacebc89b",
@@ -191,7 +191,16 @@
   },
   "active": "9fdf91892943d64c",
   "lastOpenFiles": [
+    "test/vault/notes/Des mots qui se ressemblent mais qui n'ont rien à voir.md",
     "test/vault/notes/Restons rangé-es.md",
+    "test/vault/rooms/revuedarticle.md",
+    "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
+    "test/vault/notes/Méta-verneliba - 0+b = b+0 et le spectre de Frege.md",
+    "test/vault/notes/Nos intuitions quant à l'innéité - tentations dualiste et essentialiste.md",
+    "test/vault/notes/Qui suis-je.md",
+    "test/vault/assets/figures/correspondances.png",
+    "test/vault/notes/0 Le grand saut.md",
+    "test/vault/notes/0 Against subjective probabilities.md",
     "test/vault/notes/Trois façons de réfuter l'appel à la nature.md",
     "test/vault/rooms/home.md",
     "test/vault/rooms/esthétique.md",
@@ -200,20 +209,17 @@
     "test/vault/rooms/méthodologie.md",
     "test/vault/rooms/philocognitive.md",
     "test/vault/rooms/philodulangage.md",
-    "test/vault/rooms/revuedarticle.md",
     "test/out/tags/42113c/index.html",
     "test/out/tags/42113c",
     "test/out/vault/assets/rooms/revuedarticle.jpg",
     "test/out/vault/assets/rooms/hist.jpeg",
     "test/vault/assets/rooms/hist.jpeg",
     "test/vault/assets/rooms/home.png",
-    "test/vault/notes/Des mots qui se ressemblent mais qui n'ont rien à voir.md",
     "test/out/vault/assets/figures/réceptionsfregecarnapgodel.png",
     "test/out/vault/assets/figures/la sémantique de Frege 1910-1911.png",
     "test/out/vault/assets/figures/le platonisme de Frege.png",
     "test/out/vault/assets/figures/héritage frégéen.png",
     "test/out/vault/assets/figures/n6655321.png",
-    "test/out/vault/assets/figures/lastfm3.png",
     "test/out/assets/system.css",
     "test/out/notes/Verneliba - Sinn, Bedeutung, Extension, Intension/index.html",
     "test/out/notes/Verneliba - Sinn, Bedeutung, Extension, Intension",
@@ -222,20 +228,14 @@
     "test/out/notes/La traque au Soi et Last.fm/index.html",
     "test/out/notes/La traque au Soi et Last.fm",
     "test/out/notes/D'autres rêves/index.html",
-    "test/vault/notes/Qui suis-je.md",
     "test/vault/notes/Fanzine informel - Risky-choice framing and rational decision-making.md",
     "test/vault/notes/Ranger.md",
     "test/vault/notes/D'autres rêves.md",
-    "test/vault/notes/Verneliba - Sinn, Bedeutung, Extension, Intension.md",
     "test/vault/notes/Fanzine informel - La guerre de 100 ans.md",
     "test/vault/notes/La traque au Soi et Last.fm.md",
     "test/vault/notes/La montagne était-elle sublime.md",
-    "test/vault/notes/0 Méta-verneliba - 0+b = b+0, Rocq et le spectre de Frege.md",
-    "test/vault/notes/0 Le grand saut.md",
-    "test/vault/notes/0 Against subjective probabilities.md",
     "test/vault/notes/Les racines théologiques de la crise environnementale - Lynn White, the historical root of our ecological crisis.md",
     "test/vault/notes/Ce que signifie comprendre.md",
-    "test/vault/notes/Boards of Canada, écouter les enfants.md",
-    "test/vault/notes/Can there be conceptual-engineering without a conceptual-engineer.md"
+    "test/vault/notes/Boards of Canada, écouter les enfants.md"
   ]
 }

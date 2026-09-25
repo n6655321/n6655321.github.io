@@ -49,7 +49,7 @@ Je joins une fiche que j'avais faite à partir du chapitre du manuel de B.Lecler
 On pourrait reconnaître que deux phrases ont des _Sinn_ différents lorsque, pour remarquer leur identité extensionnelle, "*a special act of recognition is required*". Et je trouve que c'est pertinent car, même si les phrases "_M gave document A to N_" et "_Document A was given to N by M_" diffèrent légèrement, on voit tout de même facilement qu'elles font référence à la même chose et qu'elles ont la même _Bedeutung_. Tandis que reconnaître que "Le 100ème nombre premier" et "541" dénotent le même objet demande un effort de reconnaissance spécial. Il s'agirait d'expressions ayant la même *Bedeutung* et un _Sinn_ différent.
 
 Dans son article, I.Hanzel dégage quatre critères chez Frege pour déterminer que deux phrases ont un _Sinn_ identique: 
-- Two sentences express the same Sinn if and only if they have the same set of consequences
+- [[Méta-verneliba - 0+b = b+0 et le spectre de Frege |Two sentences express the same Sinn if and only if they have the same set of consequences]]
 - Anyone who knows the respective language is capable to identify synonymous expressions of this language.
 - Two sentences express the same Sinn if and only if they are logically equivalent.
 - Two expressions express the same Sinn if and only if they are intersubstitutable _in oratio obliqua salva veritate_. (il s'agit du principe de substituabilité des identiques!)

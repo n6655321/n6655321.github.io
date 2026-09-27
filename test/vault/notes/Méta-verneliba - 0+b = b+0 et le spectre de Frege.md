@@ -70,7 +70,7 @@ Dans le chapitre 1 "Sense, denotation and semantics" de *Proofs and Types*, une 
 "_Instead of asking the question "when is a sentence A true?", we ask "what is a proof of A?". By proof we understand not the syntactic formal transcript, but the inherent object of which the written form gives only a shadowy reflection. We take the view that what we write as a proof is merely a description of something which is already a process in itself. So the reply to our extremely ambitious question (and an important one, if we read it computationally) cannot be a formal system._"
 Honnêtement, il y a beaucoup de choses que je ne comprends pas encore dans cette définition de la preuve. Je dois encore explorer et ne pas oublier qu'il s'agit d'un manuel d'informatique théorique et pas de philosophie (même si la description "the inherent object of which the written form gives only a shadowy reflection" aurait de quoi faire rougir Hegel).
 
-Pour l'instant, je ne sais pas comment poursuivre cette réflexion.
+Pour l'instant, je ne sais pas comment poursuivre cette réflexion ; je dois lire assurément.
 
 25 septembre 2026
 

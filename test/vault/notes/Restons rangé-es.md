@@ -6,6 +6,8 @@ None est gentil. None fait des listes. Tout est là. Et trié autrement.
 
 ## Ce que j'aime:
 
+[[Méta-verneliba - 0+b = b+0 et le spectre de Frege]]
+
 [[Verneliba - Sinn, Bedeutung, Extension, Intension]]
 
 ## Le croupi:
